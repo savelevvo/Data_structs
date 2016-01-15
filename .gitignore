@@ -1,2 +1,7 @@
 Data_structs.vcxproj
 *.filters
+*.log
+*.tlog
+Debug/main.obj
+*.pdb
+Debug/vc140.idb
