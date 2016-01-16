@@ -5,6 +5,10 @@
 using std::cout;
 using std::endl;
 
+/********************
+* Singly Linked List
+********************/
+
 template<typename T>
 struct Node
 {
@@ -21,7 +25,6 @@ public:
 	SLList(const SLList<T> &);
 	~SLList();
 	void add(const T &);
-	size_t size()const { return list_size; }
 	void display()const;
 	bool is_empty()const { return (first == nullptr && last == nullptr); }
 
@@ -32,7 +35,6 @@ public:
 private:
 	Node<T> *first;
 	Node<T> *last;
-	size_t list_size;
 	Node<T> * create_node(const T &);
 	void copy(const SLList<T> &);
 		
@@ -48,7 +50,6 @@ template<typename T>
 SLList<T>::SLList()
 {
 	first = last = nullptr; 
-	list_size = 0;
 }
 
 template<typename T>
@@ -107,7 +108,6 @@ template<typename T>
 bool SLList<T>::operator== (const SLList<T> &rhs)const
 {
 	if (this == &rhs) return true;
-	if (list_size != rhs.size()) return false;
 
 	Node<T> *ltmp = first;
 	Node<T> *rtmp = rhs.first;
@@ -118,6 +118,8 @@ bool SLList<T>::operator== (const SLList<T> &rhs)const
 	{
 		if (ltmp->value == rtmp->value)
 		{
+			if (ltmp->next == nullptr && rtmp->next != nullptr) { eq = false; break; }
+			if (rtmp->next == nullptr && ltmp->next != nullptr) { eq = false; break; }
 			ltmp = ltmp->next;
 			rtmp = rtmp->next;
 		}
@@ -140,6 +142,7 @@ bool SLList<T>::operator!= (const SLList<T> &rhs)const
 template<typename T>
 SLList<T> & SLList<T>::operator= (const SLList<T> &rhs)
 {
+	last = first = nullptr;
 	copy(rhs);
 	return *this;
 }
@@ -150,7 +153,6 @@ Node<T> * SLList<T>::create_node(const T &_val)
 	Node<T> *_node = new Node<T>;
 	_node->value = _val;
 	_node->next = nullptr;
-	list_size++;
 	return _node;
 }
 
@@ -161,7 +163,7 @@ void SLList<T>::copy(const SLList<T> &_rhs)
 		return;
 
 	Node<T> *tmp = new Node<T>;
-
+	
 	for (tmp = _rhs.first; tmp != nullptr; tmp = tmp->next)
 		add(tmp->value);
 

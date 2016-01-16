@@ -3,6 +3,10 @@
 
 #include "SLList.h"
 
+/********************
+ * Doubly Linked List
+ ********************/
+
 template<typename T>
 struct Node
 {
