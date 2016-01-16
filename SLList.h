@@ -23,6 +23,7 @@ public:
 	void add(const T &);
 	size_t size()const { return list_size; }
 	void display()const;
+	bool is_empty()const { return (first == nullptr && last == nullptr); }
 
 	bool operator==(const SLList<T> &)const;
 	bool operator!=(const SLList<T> &)const;
@@ -32,10 +33,9 @@ private:
 	Node<T> *first;
 	Node<T> *last;
 	size_t list_size;
-	void init(Node<T> *, const T &);
+	Node<T> * create_node(const T &);
 	void copy(const SLList<T> &);
-	bool is_empty()const { return (first == nullptr && last == nullptr); }
-	
+		
 	std::ostream & operator<< (std::ostream &)const;
 	std::istream & operator>> (std::istream &);
 	bool operator< (const SLList<T> &)const;
@@ -48,15 +48,13 @@ template<typename T>
 SLList<T>::SLList()
 {
 	first = last = nullptr; 
-	list_size = 0;	
+	list_size = 0;
 }
 
 template<typename T>
 SLList<T>::SLList(const T &_val)
 {
-	Node<T> *_node = new Node<T>;
-	init(_node, _val);
-	first = last = _node;
+	first = last = create_node(_val);
 }
 
 template<typename T>
@@ -68,6 +66,8 @@ SLList<T>::SLList(const SLList<T> &rhs)
 template<typename T>
 SLList<T>::~SLList()
 {
+	if (is_empty()) return;
+
 	Node<T> *current = new Node<T>(*first);
 	Node<T> *tmp = new Node<T>(*first);
 
@@ -85,12 +85,10 @@ SLList<T>::~SLList()
 template<typename T>
 void SLList<T>::add(const T &_val)
 {
-	Node<T> *_node = new Node<T>;
-	init(_node, _val);
 	if (!is_empty())
-		last = last->next = _node;
+		last = last->next = create_node(_val);
 	else
-		last = first = _node;
+		last = first = create_node(_val);
 }
 
 template<typename T>
@@ -147,11 +145,13 @@ SLList<T> & SLList<T>::operator= (const SLList<T> &rhs)
 }
 
 template<typename T>
-void SLList<T>::init(Node<T> *_node, const T &_val)
+Node<T> * SLList<T>::create_node(const T &_val)
 {
+	Node<T> *_node = new Node<T>;
 	_node->value = _val;
 	_node->next = nullptr;
 	list_size++;
+	return _node;
 }
 
 template<typename T>
