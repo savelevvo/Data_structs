@@ -5,3 +5,5 @@ Data_structs.vcxproj
 Debug/main.obj
 *.pdb
 Debug/vc140.idb
+*.obj
+x64/Debug/vc140.idb
