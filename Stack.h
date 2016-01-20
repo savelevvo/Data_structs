@@ -10,7 +10,6 @@ class Stack
 {
 public:
 	Stack(const size_t & = 1);
-	Stack(const Stack<T> &);
 	~Stack();
 
 	void push(const T &);
@@ -26,12 +25,6 @@ Stack<T>::Stack(const size_t &_sz = 1)
 {
 	sp = 0;
 	stack = new T[_sz];
-}
-
-template<typename T>
-Stack<T>::Stack(const Stack<T> &_val)
-{
-
 }
 
 template<typename T>

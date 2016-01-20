@@ -9,8 +9,8 @@ template<typename T>
 struct Node
 {
 	T value;
-	Node<T> *next;
 	Node<T> *prev;
+	Node<T> *next;
 };
 
 template<typename T>
@@ -23,6 +23,9 @@ public:
 	~List();
 
 	void push_back(const T &);
+	void push_front(const T &);
+	T & pop_back();
+	T & pop_front();
 	void display()const;
 	bool is_empty()const { return (first == nullptr && last == nullptr); }
 		
@@ -33,7 +36,7 @@ public:
 private:
 	Node<T> *first;
 	Node<T> *last;
-	Node<T> *create_node(const T &);
+	Node<T> *create_node(const T &, Node<T> * = nullptr, Node<T> * = nullptr);
 	
 	void copy(const List<T> &);
 
@@ -54,7 +57,7 @@ List<T>::List()
 template<typename T>
 List<T>::List(const T &_val)
 {
-	first = last = create_node(_val);
+	first = last = create_node(_val, last);
 }
 
 template<typename T>
@@ -86,10 +89,27 @@ template<typename T>
 void List<T>::push_back(const T &_val)
 {
 	if (!is_empty())
-		last = last->next = create_node(_val);
+		last = last->next = create_node(_val, last);
 	else
-		last = first = create_node(_val);
+		last = first = create_node(_val, last);
 }
+
+template<typename T>
+void List<T>::push_front(const T &_val)
+{
+	if (!is_empty())
+		first = first->prev = create_node(_val, nullptr, first);
+	else
+		last = first = create_node(_val, last);
+}
+
+template<typename T>
+T & List<T>::pop_back()
+{}
+
+template<typename T>
+T & List<T>::pop_front()
+{}
 
 template<typename T>
 void List<T>::display()const
@@ -147,12 +167,12 @@ List<T> & List<T>::operator= (const List<T> &rhs)
 }
 
 template<typename T>
-Node<T> *List<T>::create_node(const T &_val)
+Node<T> *List<T>::create_node(const T &_val, Node<T> *_prev = nullptr, Node<T> *_next = nullptr)
 {
 	Node<T> *_node = new Node<T>;
 	_node->value = _val;
-	_node->next = nullptr;
-	_node->prev = last;
+	_node->prev = _prev;
+	_node->next = _next;
 	return _node;
 }
 

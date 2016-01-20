@@ -1,26 +1,25 @@
 #include<iostream>
 #include<list>
-#include"list.h"
-#include"Stack.h"
+#include"List.h"
 
 using std::cout;
 using std::endl;
 
 //  TODO:
 //  List.h
-//	  push_front();
 //	  pop_back(); pop_front();
 //  Stack.h
 //    push(); pop();
 
 int main()
 {	
-	Stack<int> st(3);
-	st.push(10); st.push(20); st.push(30);
-	cout << st.pop() << endl;
-	cout << st.pop() << endl;
-	cout << st.pop() << endl;
+	List<int> list;
+	list.push_back(10); list.push_back(11);
+	list.push_back(12); list.push_back(13);
+	
+	list.push_front(9);	list.push_front(8);
 
+	list.display();
 
 	// 4.6MB(1.23s)
 	//for (int i = 0; i < 100000; i++)
