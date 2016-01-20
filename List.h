@@ -1,73 +1,70 @@
-#ifndef SLLIST_H
-#define SLLIST_H
+#ifndef _LIST_H
+#define _LIST_H
 
 #include<iostream>
 using std::cout;
 using std::endl;
-
-/********************
-* Singly Linked List
-********************/
 
 template<typename T>
 struct Node
 {
 	T value;
 	Node<T> *next;
+	Node<T> *prev;
 };
 
 template<typename T>
-class SLList
+class List
 {
 public:
-	SLList();
-	SLList(const T &);
-	SLList(const SLList<T> &);
-	~SLList();
+	List();
+	List(const T &);
+	List(const List<T> &);
+	~List();
 
 	void push_back(const T &);
 	void display()const;
 	bool is_empty()const { return (first == nullptr && last == nullptr); }
-
-	bool operator==(const SLList<T> &)const;
-	bool operator!=(const SLList<T> &)const;
-	SLList<T> & operator= (const SLList<T> &);
+		
+	bool operator==(const List<T> &)const;
+	bool operator!=(const List<T> &)const;
+	List<T> & operator= (const List<T> &);
 
 private:
 	Node<T> *first;
 	Node<T> *last;
 	Node<T> *create_node(const T &);
 	
-	void copy(const SLList<T> &);
+	void copy(const List<T> &);
 
 	std::ostream & operator<< (std::ostream &)const;
 	std::istream & operator>> (std::istream &);
-	bool operator< (const SLList<T> &)const;
-	bool operator<=(const SLList<T> &)const;
-	bool operator> (const SLList<T> &)const;
-	bool operator>=(const SLList<T> &)const;
+	bool operator< (const List<T> &)const;
+	bool operator<=(const List<T> &)const;
+	bool operator> (const List<T> &)const;
+	bool operator>=(const List<T> &)const;
 };
 
 template<typename T>
-SLList<T>::SLList()
+List<T>::List()
 {
 	first = last = nullptr; 
 }
 
 template<typename T>
-SLList<T>::SLList(const T &_val)
+List<T>::List(const T &_val)
 {
 	first = last = create_node(_val);
 }
 
 template<typename T>
-SLList<T>::SLList(const SLList<T> &rhs)
+List<T>::List(const List<T> &rhs)
 {
 	copy(rhs);
 }
 
 template<typename T>
-SLList<T>::~SLList()
+List<T>::~List()
 {
 	if (is_empty()) return;
 
@@ -86,7 +83,7 @@ SLList<T>::~SLList()
 }
 
 template<typename T>
-void SLList<T>::push_back(const T &_val)
+void List<T>::push_back(const T &_val)
 {
 	if (!is_empty())
 		last = last->next = create_node(_val);
@@ -95,7 +92,7 @@ void SLList<T>::push_back(const T &_val)
 }
 
 template<typename T>
-void SLList<T>::display()const
+void List<T>::display()const
 {
 	Node<T> *tmp = new Node<T>;
 
@@ -107,7 +104,7 @@ void SLList<T>::display()const
 }
 
 template<typename T>
-bool SLList<T>::operator== (const SLList<T> &rhs)const
+bool List<T>::operator== (const List<T> &rhs)const
 {
 	if (this == &rhs) return true;
 
@@ -136,13 +133,13 @@ bool SLList<T>::operator== (const SLList<T> &rhs)const
 }
 
 template<typename T>
-bool SLList<T>::operator!= (const SLList<T> &rhs)const
+bool List<T>::operator!= (const List<T> &rhs)const
 {
 	return !(*this == rhs);
 }
 
 template<typename T>
-SLList<T> & SLList<T>::operator= (const SLList<T> &rhs)
+List<T> & List<T>::operator= (const List<T> &rhs)
 {
 	last = first = nullptr;
 	copy(rhs);
@@ -150,16 +147,17 @@ SLList<T> & SLList<T>::operator= (const SLList<T> &rhs)
 }
 
 template<typename T>
-Node<T> *SLList<T>::create_node(const T &_val)
+Node<T> *List<T>::create_node(const T &_val)
 {
 	Node<T> *_node = new Node<T>;
 	_node->value = _val;
 	_node->next = nullptr;
+	_node->prev = last;
 	return _node;
 }
 
 template<typename T>
-void SLList<T>::copy(const SLList<T> &rhs)
+void List<T>::copy(const List<T> &rhs)
 {
 	if (this == &rhs || rhs.is_empty())
 		return;
@@ -167,9 +165,9 @@ void SLList<T>::copy(const SLList<T> &rhs)
 	Node<T> *tmp = new Node<T>;
 	
 	for (tmp = rhs.first; tmp != nullptr; tmp = tmp->next)
-		push_back(tmp->value);// ???
+		push_back(tmp->value);
 
 	delete tmp;
 }
 
-#endif // SLLIST_H
+#endif // LIST_H

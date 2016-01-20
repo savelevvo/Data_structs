@@ -1,5 +1,5 @@
-#ifndef _QUEUE
-#define _QUEUE
+#ifndef _QUEUE_H
+#define _QUEUE_H
 
 #include<iostream>
 
@@ -89,4 +89,4 @@ bool Queue<T>::operator!=(const Queue<T> &rhs)const
 	return !(*this == rhs);
 }
 
-#endif // !_QUEUE
+#endif // _QUEUE

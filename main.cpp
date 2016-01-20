@@ -1,20 +1,25 @@
 #include<iostream>
 #include<list>
-#include"DLList.h"
+#include"list.h"
+#include"Stack.h"
 
 using std::cout;
 using std::endl;
 
-// TODO:
-//	push_back(); push_front();
-//	pop_back(); pop_front();
+//  TODO:
+//  List.h
+//	  push_front();
+//	  pop_back(); pop_front();
+//  Stack.h
+//    push(); pop();
 
 int main()
 {	
-	SLList<int> sl1;
-	
-
-
+	Stack<int> st(3);
+	st.push(10); st.push(20); st.push(30);
+	cout << st.pop() << endl;
+	cout << st.pop() << endl;
+	cout << st.pop() << endl;
 
 
 	// 4.6MB(1.23s)
