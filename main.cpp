@@ -6,28 +6,34 @@ using std::cout;
 using std::endl;
 
 //  TODO:
-//  List.h
-//	  pop_back(); pop_front();
 //  Stack.h
 //    push(); pop();
 
 int main()
 {	
-	List<int> list;
-	list.push_back(10); list.push_back(11);
-	list.push_back(12); list.push_back(13);
+
+	List<int> l1;
+	//std::list<int> l2;
+
+
+
+	l1.push_back(10); l1.push_back(11); l1.push_back(12);
+	l1.push_front(13); l1.push_front(14); l1.push_front(15);
+
+	l1.pop_back(); l1.pop_back();
+	l1.pop_front(); l1.pop_front();
+
+	//l1.display();
+
+
 	
-	list.push_front(9);	list.push_front(8);
+	// 55.56MB(11.35s)
+	//for (int i = 0; i < 1000000; i++)
+	//	l2.push_back(i * 2);
 
-	list.display();
-
-	// 4.6MB(1.23s)
-	//for (int i = 0; i < 100000; i++)
-	//	l2.push_back(i*2);
-
-	// 4.2MB(0.82s)
-	//for (int i = 0; i < 100000; i++)
-	//	l1.add(i * 2);
+	// 55.92MB(7.76s)
+	//for (int i = 0; i < 1000000; i++)
+	//	l1.push_back(i * 2);
 
 	return 0;
 }

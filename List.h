@@ -1,5 +1,6 @@
 #ifndef _LIST_H
 #define _LIST_H
+#pragma once
 
 #include<iostream>
 using std::cout;
@@ -17,6 +18,7 @@ template<typename T>
 class List
 {
 public:
+	class EmptyObject{};
 	List();
 	List(const T &);
 	List(const List<T> &);
@@ -27,7 +29,7 @@ public:
 	T & pop_back();
 	T & pop_front();
 	void display()const;
-	bool is_empty()const { return (first == nullptr && last == nullptr); }
+	bool empty()const { return (first == nullptr && last == nullptr); }
 		
 	bool operator==(const List<T> &)const;
 	bool operator!=(const List<T> &)const;
@@ -69,7 +71,7 @@ List<T>::List(const List<T> &rhs)
 template<typename T>
 List<T>::~List()
 {
-	if (is_empty()) return;
+	if (empty()) return;
 
 	Node<T> *current = new Node<T>(*first);
 	Node<T> *tmp = new Node<T>(*first);
@@ -88,7 +90,7 @@ List<T>::~List()
 template<typename T>
 void List<T>::push_back(const T &_val)
 {
-	if (!is_empty())
+	if (!empty())
 		last = last->next = create_node(_val, last);
 	else
 		last = first = create_node(_val, last);
@@ -97,7 +99,7 @@ void List<T>::push_back(const T &_val)
 template<typename T>
 void List<T>::push_front(const T &_val)
 {
-	if (!is_empty())
+	if (!empty())
 		first = first->prev = create_node(_val, nullptr, first);
 	else
 		last = first = create_node(_val, last);
@@ -105,11 +107,47 @@ void List<T>::push_front(const T &_val)
 
 template<typename T>
 T & List<T>::pop_back()
-{}
+{
+	if (empty()) throw EmptyObject();
+	
+	Node<T> *tmp = new Node<T>(*last);
+
+	if (first->next == nullptr && last->prev == nullptr)// There is only one node
+	{	
+		delete last;
+		first = last = nullptr;
+		return tmp->value;
+	}
+	else// Several nodes
+	{
+		delete last;
+		last = tmp->prev;
+		last->next = nullptr;
+		return tmp->value;
+	}	
+}
 
 template<typename T>
 T & List<T>::pop_front()
-{}
+{
+	if (empty()) throw EmptyObject();
+
+	Node<T> *tmp = new Node<T>(*first);
+
+	if (first->next == nullptr && last->prev == nullptr)// There is only one node
+	{
+		delete first;
+		first = last = nullptr;
+		return tmp->value;
+	}
+	else// Several nodes
+	{
+		delete first;
+		first = tmp->next;
+		first->prev = nullptr;
+		return tmp->value;
+	}
+}
 
 template<typename T>
 void List<T>::display()const
@@ -179,7 +217,7 @@ Node<T> *List<T>::create_node(const T &_val, Node<T> *_prev = nullptr, Node<T> *
 template<typename T>
 void List<T>::copy(const List<T> &rhs)
 {
-	if (this == &rhs || rhs.is_empty())
+	if (this == &rhs || rhs.empty())
 		return;
 
 	Node<T> *tmp = new Node<T>;
