@@ -1,30 +1,54 @@
+#pragma once
 #ifndef _STACK_H
 #define _STACK_H
 
 #include<iostream>
-using std::cout;
-using std::endl;
 
 template<typename T>
 class Stack
 {
 public:
-	Stack(const size_t & = 1);
+	class EmptyStack{};
+	Stack();
+	Stack(const Stack<T> &);
 	~Stack();
 
 	void push(const T &);
 	T pop();
+	bool empty();
+	size_t size();
+	void swap(Stack<T> &);
 
 private:
-	unsigned sp;
+	T *sp;// stack pointer
 	T *stack;
+	size_t sz;
+	size_t capacity;
+	size_t lsz;// logical size
+
+	std::ostream & operator<< (std::ostream &)const;
+	std::istream & operator>> (std::istream &);
+	Stack<T> & operator= (const Stack<T> &);
+	bool operator==(const Stack<T> &)const;
+	bool operator!=(const Stack<T> &)const;
+	bool operator< (const Stack<T> &)const;
+	bool operator<=(const Stack<T> &)const;
+	bool operator> (const Stack<T> &)const;
+	bool operator>=(const Stack<T> &)const;
 };
 
 template<typename T>
-Stack<T>::Stack(const size_t &_sz = 1)
+Stack<T>::Stack()
 {
-	sp = 0;
-	stack = new T[_sz];
+	lsz = 1;
+	stack = new T[lsz];
+	sp = stack;
+}
+
+template<typename T>
+Stack<T>::Stack(const Stack<T> &_val)
+{
+
 }
 
 template<typename T>
@@ -36,13 +60,32 @@ Stack<T>::~Stack()
 template<typename T>
 void Stack<T>::push(const T &_val)
 {
-	stack[sp++] = _val;
+	T *tmp = new T[lsz];
+	
 }
 
 template<typename T>
 T Stack<T>::pop()
 {
-	return stack[--sp];
+	return *(--sp);
 }
 
-#endif // STACK_H
+template<typename T>
+bool Stack<T>::empty()
+{
+	return sz == 0;
+}
+
+template<typename T>
+size_t Stack<T>::size()
+{
+	return sz;
+}
+
+template<typename T>
+void Stack<T>::swap(Stack<T> &rhs)
+{
+
+}
+
+#endif // _STACK_H

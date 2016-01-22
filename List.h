@@ -1,10 +1,8 @@
+#pragma once
 #ifndef _LIST_H
 #define _LIST_H
-#pragma once
 
 #include<iostream>
-using std::cout;
-using std::endl;
 
 template<typename T>
 struct Node
@@ -18,7 +16,7 @@ template<typename T>
 class List
 {
 public:
-	class EmptyObject{};
+	class EmptyList{};
 	List();
 	List(const T &);
 	List(const List<T> &);
@@ -108,7 +106,7 @@ void List<T>::push_front(const T &_val)
 template<typename T>
 T & List<T>::pop_back()
 {
-	if (empty()) throw EmptyObject();
+	if (empty()) throw EmptyList();
 	
 	Node<T> *tmp = new Node<T>(*last);
 
@@ -130,7 +128,7 @@ T & List<T>::pop_back()
 template<typename T>
 T & List<T>::pop_front()
 {
-	if (empty()) throw EmptyObject();
+	if (empty()) throw EmptyList();
 
 	Node<T> *tmp = new Node<T>(*first);
 
@@ -155,8 +153,8 @@ void List<T>::display()const
 	Node<T> *tmp = new Node<T>;
 
 	for (tmp = first; tmp != nullptr; tmp = tmp->next)
-		cout << tmp->value << " ";
-	cout << endl;
+		std::cout << tmp->value << " ";
+	std::cout << std::endl;
 
 	delete tmp;
 }
@@ -228,4 +226,4 @@ void List<T>::copy(const List<T> &rhs)
 	delete tmp;
 }
 
-#endif // LIST_H
+#endif // _LIST_H

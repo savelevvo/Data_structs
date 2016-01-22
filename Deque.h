@@ -1,26 +1,27 @@
-#ifndef _QUEUE_H
-#define _QUEUE_H
+#pragma once
+#ifndef _DEQUE_H
+#define _DQEUE_H
 
 #include<iostream>
 
 template<typename T>
-class Queue
+class Deque
 {
 public:
-	class EmptyQueue {};
+	class EmptyDeque {};
 	class InvalidRange {};
 	
-	Queue(int);
-	Queue(const Queue<T> &);// todo
-	~Queue();
+	Deque(int);
+	Deque(const Deque<T> &);// todo
+	~Deque();
 	
 	void push(const T &);
 	T pop();
 	size_t size()const { return sz; }
 	
-	bool operator==(const Queue<T> &)const; // todo
-	bool operator!=(const Queue<T> &)const; // todo
-	Queue<T> & operator= (const Queue<T> &);// todo
+	bool operator==(const Deque<T> &)const; // todo
+	bool operator!=(const Deque<T> &)const; // todo
+	Deque<T> & operator= (const Deque<T> &);// todo
 
 private:
 	int sz;
@@ -31,14 +32,14 @@ private:
 
 	std::ostream & operator<< (std::ostream &)const;
 	std::istream & operator>> (std::istream &);
-	bool operator< (const Queue<T> &)const;
-	bool operator<=(const Queue<T> &)const;
-	bool operator> (const Queue<T> &)const;
-	bool operator>=(const Queue<T> &)const;
+	bool operator< (const Deque<T> &)const;
+	bool operator<=(const Deque<T> &)const;
+	bool operator> (const Deque<T> &)const;
+	bool operator>=(const Deque<T> &)const;
 };
 
 template<typename T>
-Queue<T>::Queue(int size)
+Deque<T>::Deque(int size)
 {
 	tail = head = 0;
 	count = 0;
@@ -47,13 +48,13 @@ Queue<T>::Queue(int size)
 }
 
 template<typename T>
-Queue<T>::~Queue()
+Deque<T>::~Deque()
 {
 	delete[] arr;
 }
 
 template<typename T>
-void Queue<T>::push(const T &val)
+void Deque<T>::push(const T &val)
 {
 	arr[tail] = val;
 	tail < sz - 1 ? tail++ : head = tail = 0;
@@ -61,16 +62,16 @@ void Queue<T>::push(const T &val)
 }
 
 template<typename T>
-T Queue<T>::pop()
+T Deque<T>::pop()
 {
 	if (head >= sz) throw InvalidRange();
-	if (0 == count) throw EmptyQueue();
+	if (0 == count) throw EmptyDeque();
 	count--;
 	return arr[head++];
 }
 
 template<typename T>
-bool Queue<T>::operator==(const Queue<T> &rhs)const
+bool Deque<T>::operator==(const Deque<T> &rhs)const
 {
 	if (this == &rhs) return true;
 	if (size() != rhs.size()) return false;
@@ -84,9 +85,9 @@ bool Queue<T>::operator==(const Queue<T> &rhs)const
 }
 
 template<typename T>
-bool Queue<T>::operator!=(const Queue<T> &rhs)const
+bool Deque<T>::operator!=(const Deque<T> &rhs)const
 {
 	return !(*this == rhs);
 }
 
-#endif // _QUEUE
+#endif // _DEQUE

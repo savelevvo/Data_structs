@@ -1,6 +1,7 @@
 #include<iostream>
-#include<list>
-#include"List.h"
+#include<stack>
+#include<string>
+#include"Stack.h"
 
 using std::cout;
 using std::endl;
@@ -8,22 +9,17 @@ using std::endl;
 //  TODO:
 //  Stack.h
 //    push(); pop();
+//  Vector.h
+//  Set.h
+//  Map.h
 
 int main()
 {	
-
-	List<int> l1;
-	//std::list<int> l2;
+	Stack<int> st;
 
 
 
-	l1.push_back(10); l1.push_back(11); l1.push_back(12);
-	l1.push_front(13); l1.push_front(14); l1.push_front(15);
 
-	l1.pop_back(); l1.pop_back();
-	l1.pop_front(); l1.pop_front();
-
-	//l1.display();
 
 
 	
