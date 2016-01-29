@@ -17,8 +17,8 @@ namespace mystruct
 
 		void push(T);
 		T pop();
-		bool empty();
-		size_t size();
+		inline bool empty()const;
+		inline size_t size()const;
 		void swap(stack<T> &);
 
 	private:
@@ -59,6 +59,9 @@ namespace mystruct
 		delete[] stack;
 	}
 
+	/**
+	* Inserts a new element at the top of the stack. The content of this new element is initialized to a copy of _val.
+	**/
 	template<typename T>
 	void stack<T>::push(T _val)
 	{
@@ -66,24 +69,36 @@ namespace mystruct
 
 	}
 
+	/**
+	* Removes the element on top of the stack, effectively reducing its size by one.
+	**/
 	template<typename T>
 	T stack<T>::pop()
 	{
 		return *(--sp);
 	}
 
+	/**
+	* Returns whether the stack is empty: i.e. whether its size is zero.
+	**/
 	template<typename T>
-	bool stack<T>::empty()
+	inline bool stack<T>::empty()const
 	{
 		return sz == 0;
 	}
 
+	/**
+	* Returns the number of elements in the stack.
+	**/
 	template<typename T>
-	size_t stack<T>::size()
+	inline size_t stack<T>::size()const
 	{
 		return sz;
 	}
 
+	/**
+	* Exchanges the contents of the container by those of rhs.
+	**/
 	template<typename T>
 	void stack<T>::swap(stack<T> &rhs)
 	{

@@ -29,7 +29,7 @@ namespace mystruct
 		T & pop_back();
 		T & pop_front();
 		void display()const;
-		bool empty()const { return (first == nullptr && last == nullptr); }
+		inline bool empty()const;
 
 		bool operator==(const list<T> &)const;
 		bool operator!=(const list<T> &)const;
@@ -86,6 +86,10 @@ namespace mystruct
 		delete current;
 	}
 
+	/**
+	 * Adds a new element at the end of the list container, after its current last element.
+	 * This effectively increases the container size by one.
+	**/
 	template<typename T>
 	void list<T>::push_back(T _val)
 	{
@@ -95,6 +99,10 @@ namespace mystruct
 			last = first = create_node(_val, last);
 	}
 
+	/**
+	* Inserts a new element at the beginning of the list, right before its current first element.
+	* This effectively increases the container size by one.
+	**/
 	template<typename T>
 	void list<T>::push_front(T _val)
 	{
@@ -104,6 +112,10 @@ namespace mystruct
 			last = first = create_node(_val, last);
 	}
 
+	/**
+	* Removes the last element in the list container, effectively reducing the container size by one.
+	* This destroys the removed element.
+	**/
 	template<typename T>
 	T & list<T>::pop_back()
 	{
@@ -111,7 +123,7 @@ namespace mystruct
 
 		node<T> *tmp = new node<T>(*last);
 
-		if (first->next == nullptr && last->prev == nullptr)// There is only one node
+		if (first->next == nullptr && last->prev == nullptr)// There is the only node
 		{
 			delete last;
 			first = last = nullptr;
@@ -126,6 +138,10 @@ namespace mystruct
 		}
 	}
 
+	/**
+	* Removes the first element in the list container, effectively reducing its size by one.
+	* This destroys the removed element.
+	**/
 	template<typename T>
 	T & list<T>::pop_front()
 	{
@@ -133,7 +149,7 @@ namespace mystruct
 
 		node<T> *tmp = new node<T>(*first);
 
-		if (first->next == nullptr && last->prev == nullptr)// There is only one node
+		if (first->next == nullptr && last->prev == nullptr)// There is the only node
 		{
 			delete first;
 			first = last = nullptr;
@@ -158,6 +174,16 @@ namespace mystruct
 		std::cout << std::endl;
 
 		delete tmp;
+	}
+
+	/**
+	* Returns whether the list container is empty.
+	* This function does not modify the container in any way.
+	*/
+	template<typename T>
+	inline bool list<T>::empty()const
+	{
+		return (first == nullptr && last == nullptr);
 	}
 
 	template<typename T>
@@ -195,6 +221,9 @@ namespace mystruct
 		return !(*this == rhs);
 	}
 
+	/**
+	* Assigns new contents to the container, replacing its current contents, and modifying its size accordingly.
+	**/
 	template<typename T>
 	list<T> & list<T>::operator= (const list<T> &rhs)
 	{
