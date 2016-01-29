@@ -2,46 +2,58 @@
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
-template<typename T>
-class Vector
+namespace mystruct
 {
-public:
-	Vector();
-	~Vector();
+	template<typename T>
+	class vector
+	{
+	public:
+		class out_of_range {};
+		vector(int = 1);
+		~vector();
+		vector<T> & operator=(const vector<T> &);
 
-	size_t size() { return sz; }
-	bool empty() { return sz == 0; }
+		size_t size()const { return sz; }
+		void resize(size_t);// Change size 
+		size_t capacity()const { return cap; }
+		bool empty()const { return sz == 0; }
+		void reserve(size_t);// Request a change in capacity 
 
-	void push_back(const T &);
-	T & pop_back();
-	void swap(Vector<T> &);
+		T & operator[](int);
+		T & at(int);// signals if the requested position is out of range by throwing an out_of_range exception
+		T & front();// first element
+		T & back(); // last element
 
-private:
-	size_t sz;
-	size_t cap;
-	T *arr;
+		void push_back(const T &);
+		T & pop_back();
+		void swap(vector<T> &);
 
-};
+	private:
+		size_t sz;
+		size_t cap;
+		T *arr;
+	};
 
-template<typename T>
-Vector<T>::Vector()
-{
-	sz = 1;
-	arr = new T[sz];
+	template<typename T>
+	vector<T>::vector(int _sz = 1)
+	{
+		sz = _sz;
+		arr = new T[sz];
 
 
-}
+	}
 
-template<typename T>
-Vector<T>::~Vector()
-{
-	delete[] arr;
-}
+	template<typename T>
+	vector<T>::~vector()
+	{
+		delete[] arr;
+	}
 
-template<typename T>
-void Vector<T>::push_back(const T &_val)
-{
+	template<typename T>
+	void vector<T>::push_back(const T &_val)
+	{
 
-}
+	}
+}// namespace
 
-#endif
+#endif // !_VECTOR_H

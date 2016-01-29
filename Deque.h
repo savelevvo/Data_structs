@@ -4,90 +4,93 @@
 
 #include<iostream>
 
-template<typename T>
-class Deque
+namespace mystruct
 {
-public:
-	class EmptyDeque {};
-	class InvalidRange {};
-	
-	Deque(int);
-	Deque(const Deque<T> &);// todo
-	~Deque();
-	
-	void push(T);
-	T pop();
-	size_t size()const { return sz; }
-	
-	bool operator==(const Deque<T> &)const; // todo
-	bool operator!=(const Deque<T> &)const; // todo
-	Deque<T> & operator= (const Deque<T> &);// todo
+	template<typename T>
+	class Deque
+	{
+	public:
+		class EmptyDeque {};
+		class InvalidRange {};
 
-private:
-	int sz;
-	T *arr;
-	int head;
-	int tail;
-	size_t count;
+		Deque(int);
+		Deque(const Deque<T> &);// todo
+		~Deque();
 
-	std::ostream & operator<< (std::ostream &)const;
-	std::istream & operator>> (std::istream &);
-	bool operator< (const Deque<T> &)const;
-	bool operator<=(const Deque<T> &)const;
-	bool operator> (const Deque<T> &)const;
-	bool operator>=(const Deque<T> &)const;
-};
+		void push(T);
+		T pop();
+		size_t size()const { return sz; }
 
-template<typename T>
-Deque<T>::Deque(int size)
-{
-	tail = head = 0;
-	count = 0;
-	sz = size;
-	arr = new T[sz];
-}
+		bool operator==(const Deque<T> &)const; // todo
+		bool operator!=(const Deque<T> &)const; // todo
+		Deque<T> & operator= (const Deque<T> &);// todo
 
-template<typename T>
-Deque<T>::~Deque()
-{
-	delete[] arr;
-}
+	private:
+		int sz;
+		T *arr;
+		int head;
+		int tail;
+		size_t count;
 
-template<typename T>
-void Deque<T>::push(T val)
-{
-	arr[tail] = val;
-	tail < sz - 1 ? tail++ : head = tail = 0;
-	count++;
-}
+		std::ostream & operator<< (std::ostream &)const;
+		std::istream & operator>> (std::istream &);
+		bool operator< (const Deque<T> &)const;
+		bool operator<=(const Deque<T> &)const;
+		bool operator> (const Deque<T> &)const;
+		bool operator>=(const Deque<T> &)const;
+	};
 
-template<typename T>
-T Deque<T>::pop()
-{
-	if (head >= sz) throw InvalidRange();
-	if (0 == count) throw EmptyDeque();
-	count--;
-	return arr[head++];
-}
+	template<typename T>
+	Deque<T>::Deque(int size)
+	{
+		tail = head = 0;
+		count = 0;
+		sz = size;
+		arr = new T[sz];
+	}
 
-template<typename T>
-bool Deque<T>::operator==(const Deque<T> &rhs)const
-{
-	if (this == &rhs) return true;
-	if (size() != rhs.size()) return false;
+	template<typename T>
+	Deque<T>::~Deque()
+	{
+		delete[] arr;
+	}
 
-	bool eq = true;
-	
-	for (size_t i = 0; i < count; i++)
-		if (arr[i] != rhs.arr[i]) { eq = false; break; }
+	template<typename T>
+	void Deque<T>::push(T val)
+	{
+		arr[tail] = val;
+		tail < sz - 1 ? tail++ : head = tail = 0;
+		count++;
+	}
 
-	return eq;
-}
+	template<typename T>
+	T Deque<T>::pop()
+	{
+		if (head >= sz) throw InvalidRange();
+		if (0 == count) throw EmptyDeque();
+		count--;
+		return arr[head++];
+	}
 
-template<typename T>
-bool Deque<T>::operator!=(const Deque<T> &rhs)const
-{
-	return !(*this == rhs);
-}
+	template<typename T>
+	bool Deque<T>::operator==(const Deque<T> &rhs)const
+	{
+		if (this == &rhs) return true;
+		if (size() != rhs.size()) return false;
 
-#endif // _DEQUE
+		bool eq = true;
+
+		for (size_t i = 0; i < count; i++)
+			if (arr[i] != rhs.arr[i]) { eq = false; break; }
+
+		return eq;
+	}
+
+	template<typename T>
+	bool Deque<T>::operator!=(const Deque<T> &rhs)const
+	{
+		return !(*this == rhs);
+	}
+}// namespace
+
+#endif // !_DEQUE_H
