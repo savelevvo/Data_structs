@@ -1,25 +1,17 @@
 #include<iostream>
-#include<stack>
-#include<string>
-#include"Stack.h"
+#include<set>
 
 using std::cout;
 using std::endl;
 
-//  TODO:
+// TODO:
 //  Stack.h
-//    push(); pop();
 //  Vector.h
 //  Set.h
 //  Map.h
 
 int main()
 {	
-	Stack<int> st;
-
-
-
-
 
 
 	

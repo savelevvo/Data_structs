@@ -15,7 +15,7 @@ public:
 	Deque(const Deque<T> &);// todo
 	~Deque();
 	
-	void push(const T &);
+	void push(T);
 	T pop();
 	size_t size()const { return sz; }
 	
@@ -54,7 +54,7 @@ Deque<T>::~Deque()
 }
 
 template<typename T>
-void Deque<T>::push(const T &val)
+void Deque<T>::push(T val)
 {
 	arr[tail] = val;
 	tail < sz - 1 ? tail++ : head = tail = 0;

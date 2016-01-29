@@ -18,12 +18,12 @@ class List
 public:
 	class EmptyList{};
 	List();
-	List(const T &);
+	List(T );
 	List(const List<T> &);
 	~List();
 
-	void push_back(const T &);
-	void push_front(const T &);
+	void push_back(T);
+	void push_front(T);
 	T & pop_back();
 	T & pop_front();
 	void display()const;
@@ -36,8 +36,7 @@ public:
 private:
 	Node<T> *first;
 	Node<T> *last;
-	Node<T> *create_node(const T &, Node<T> * = nullptr, Node<T> * = nullptr);
-	
+	Node<T> *create_node(T, Node<T> * = nullptr, Node<T> * = nullptr);
 	void copy(const List<T> &);
 
 	std::ostream & operator<< (std::ostream &)const;
@@ -55,7 +54,7 @@ List<T>::List()
 }
 
 template<typename T>
-List<T>::List(const T &_val)
+List<T>::List(T _val)
 {
 	first = last = create_node(_val, last);
 }
@@ -86,7 +85,7 @@ List<T>::~List()
 }
 
 template<typename T>
-void List<T>::push_back(const T &_val)
+void List<T>::push_back(T _val)
 {
 	if (!empty())
 		last = last->next = create_node(_val, last);
@@ -95,7 +94,7 @@ void List<T>::push_back(const T &_val)
 }
 
 template<typename T>
-void List<T>::push_front(const T &_val)
+void List<T>::push_front(T _val)
 {
 	if (!empty())
 		first = first->prev = create_node(_val, nullptr, first);
@@ -203,7 +202,7 @@ List<T> & List<T>::operator= (const List<T> &rhs)
 }
 
 template<typename T>
-Node<T> *List<T>::create_node(const T &_val, Node<T> *_prev = nullptr, Node<T> *_next = nullptr)
+Node<T> *List<T>::create_node(T _val, Node<T> *_prev = nullptr, Node<T> *_next = nullptr)
 {
 	Node<T> *_node = new Node<T>;
 	_node->value = _val;

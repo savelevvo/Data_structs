@@ -13,7 +13,7 @@ public:
 	Stack(const Stack<T> &);
 	~Stack();
 
-	void push(const T &);
+	void push(T);
 	T pop();
 	bool empty();
 	size_t size();
@@ -58,7 +58,7 @@ Stack<T>::~Stack()
 }
 
 template<typename T>
-void Stack<T>::push(const T &_val)
+void Stack<T>::push(T _val)
 {
 	T *tmp = new T[lsz];
 	
