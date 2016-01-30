@@ -7,7 +7,7 @@ using std::endl;
 int main()
 {	
 	//  TODO:
-	//    List<T>::size();
+	//    void List<T>::swap(list<T> &);
 	//  
 	
 	

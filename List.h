@@ -23,21 +23,32 @@ namespace mystruct
 		list(T);
 		list(const list<T> &);
 		~list();
+		list<T> & operator= (const list<T> &);
 
-		void push_back(T);
-		void push_front(T);
-		T & pop_back();
-		T & pop_front();
-		void display()const;
+		/* Capacity */
 		inline bool empty()const;
+		inline size_t size()const;
+
+		/* Element access */
+		inline T & front()const;
+		inline T & back()const;
+
+		/* Modifiers */
+		void push_front(T);
+		T & pop_front();
+		void push_back(T);
+		T & pop_back();
+		void swap(list<T> &);//todo
+
+		void display()const;
 
 		bool operator==(const list<T> &)const;
 		bool operator!=(const list<T> &)const;
-		list<T> & operator= (const list<T> &);
 
 	private:
 		node<T> *first;
 		node<T> *last;
+		size_t sz;
 		node<T> *create_node(T, node<T> * = nullptr, node<T> * = nullptr);
 		void copy(const list<T> &);
 
@@ -53,18 +64,21 @@ namespace mystruct
 	list<T>::list()
 	{
 		first = last = nullptr;
+		sz = 0;
 	}
 
 	template<typename T>
 	list<T>::list(T _val)
 	{
 		first = last = create_node(_val, last);
+		sz = 1;
 	}
 
 	template<typename T>
 	list<T>::list(const list<T> &rhs)
 	{
 		copy(rhs);
+		sz = rhs.size();
 	}
 
 	template<typename T>
@@ -87,16 +101,49 @@ namespace mystruct
 	}
 
 	/**
-	 * Adds a new element at the end of the list container, after its current last element.
-	 * This effectively increases the container size by one.
+	* Assigns new contents to the container, replacing its current contents, and modifying its size accordingly.
 	**/
 	template<typename T>
-	void list<T>::push_back(T _val)
+	list<T> & list<T>::operator= (const list<T> &rhs)
 	{
-		if (!empty())
-			last = last->next = create_node(_val, last);
-		else
-			last = first = create_node(_val, last);
+		last = first = nullptr;
+		copy(rhs);
+		sz = rhs.size();
+		return *this;
+	}
+
+	/**
+	* Returns whether the list container is empty.
+	* This function does not modify the container in any way.
+	*/
+	template<typename T>
+	inline bool list<T>::empty()const
+	{
+		return (first == nullptr && last == nullptr);
+	}
+
+	template<typename T>
+	inline size_t list<T>::size()const
+	{
+		return sz;
+	}
+
+	/**
+	* Returns a reference to the first element in the list container.
+	*/
+	template<typename T>
+	inline T & list<T>::front()const
+	{
+		return *first;
+	}
+
+	/**
+	* Returns a reference to the last element in the list container.
+	*/
+	template<typename T>
+	inline T & list<T>::back()const
+	{
+		return *last;
 	}
 
 	/**
@@ -110,6 +157,47 @@ namespace mystruct
 			first = first->prev = create_node(_val, nullptr, first);
 		else
 			last = first = create_node(_val, last);
+		sz++;
+	}
+
+	/**
+	* Removes the first element in the list container, effectively reducing its size by one.
+	* This destroys the removed element.
+	**/
+	template<typename T>
+	T & list<T>::pop_front()
+	{
+		if (empty()) throw EmptyList();
+		sz--;
+		node<T> *tmp = new node<T>(*first);
+
+		if (first->next == nullptr && last->prev == nullptr)// There is the only node
+		{
+			delete first;
+			first = last = nullptr;
+			return tmp->value;
+		}
+		else// Several nodes
+		{
+			delete first;
+			first = tmp->next;
+			first->prev = nullptr;
+			return tmp->value;
+		}
+	}
+
+	/**
+	 * Adds a new element at the end of the list container, after its current last element.
+	 * This effectively increases the container size by one.
+	**/
+	template<typename T>
+	void list<T>::push_back(T _val)
+	{
+		if (!empty())
+			last = last->next = create_node(_val, last);
+		else
+			last = first = create_node(_val, last);
+		sz++;
 	}
 
 	/**
@@ -120,7 +208,7 @@ namespace mystruct
 	T & list<T>::pop_back()
 	{
 		if (empty()) throw EmptyList();
-
+		sz--;
 		node<T> *tmp = new node<T>(*last);
 
 		if (first->next == nullptr && last->prev == nullptr)// There is the only node
@@ -139,31 +227,18 @@ namespace mystruct
 	}
 
 	/**
-	* Removes the first element in the list container, effectively reducing its size by one.
-	* This destroys the removed element.
+	* Exchanges the content of the container by the content of rhs, which is another list of the same type. Sizes may differ.
 	**/
 	template<typename T>
-	T & list<T>::pop_front()
+	void list<T>::swap(list<T> &rhs)
 	{
-		if (empty()) throw EmptyList();
 
-		node<T> *tmp = new node<T>(*first);
-
-		if (first->next == nullptr && last->prev == nullptr)// There is the only node
-		{
-			delete first;
-			first = last = nullptr;
-			return tmp->value;
-		}
-		else// Several nodes
-		{
-			delete first;
-			first = tmp->next;
-			first->prev = nullptr;
-			return tmp->value;
-		}
 	}
 
+	/**
+	* Display all items of the list in one line.
+	* This function does not modify the container in any way.
+	**/
 	template<typename T>
 	void list<T>::display()const
 	{
@@ -176,15 +251,7 @@ namespace mystruct
 		delete tmp;
 	}
 
-	/**
-	* Returns whether the list container is empty.
-	* This function does not modify the container in any way.
-	*/
-	template<typename T>
-	inline bool list<T>::empty()const
-	{
-		return (first == nullptr && last == nullptr);
-	}
+
 
 	template<typename T>
 	bool list<T>::operator== (const list<T> &rhs)const
@@ -221,16 +288,7 @@ namespace mystruct
 		return !(*this == rhs);
 	}
 
-	/**
-	* Assigns new contents to the container, replacing its current contents, and modifying its size accordingly.
-	**/
-	template<typename T>
-	list<T> & list<T>::operator= (const list<T> &rhs)
-	{
-		last = first = nullptr;
-		copy(rhs);
-		return *this;
-	}
+	
 
 	template<typename T>
 	node<T> *list<T>::create_node(T _val, node<T> *_prev = nullptr, node<T> *_next = nullptr)
