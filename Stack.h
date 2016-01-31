@@ -10,23 +10,23 @@ namespace mystruct
 	class stack
 	{
 	public:
-		class Emptystack {};
-		stack();
+		class EmptyStack {};
+		class FullStack{};
+		stack(size_t);
 		stack(const stack<T> &);
 		~stack();
 
-		void push(T);
-		T pop();
 		inline bool empty()const;
 		inline size_t size()const;
+
+		void push(T);
+		T pop();
 		void swap(stack<T> &);
 
 	private:
 		T *sp;// stack pointer
 		T *stack;
 		size_t sz;
-		size_t capacity;
-		size_t lsz;// logical size
 
 		std::ostream & operator<< (std::ostream &)const;
 		std::istream & operator>> (std::istream &);
@@ -40,10 +40,10 @@ namespace mystruct
 	};
 
 	template<typename T>
-	stack<T>::stack()
+	stack<T>::stack(size_t _sz)
 	{
-		lsz = 1;
-		stack = new T[lsz];
+		sz = _sz;
+		stack = new T[_sz];
 		sp = stack;
 	}
 
@@ -57,25 +57,6 @@ namespace mystruct
 	stack<T>::~stack()
 	{
 		delete[] stack;
-	}
-
-	/**
-	* Inserts a new element at the top of the stack. The content of this new element is initialized to a copy of _val.
-	**/
-	template<typename T>
-	void stack<T>::push(T _val)
-	{
-		T *tmp = new T[lsz];
-
-	}
-
-	/**
-	* Removes the element on top of the stack, effectively reducing its size by one.
-	**/
-	template<typename T>
-	T stack<T>::pop()
-	{
-		return *(--sp);
 	}
 
 	/**
@@ -94,6 +75,26 @@ namespace mystruct
 	inline size_t stack<T>::size()const
 	{
 		return sz;
+	}
+
+	/**
+	* Inserts a new element at the top of the stack. The content of this new element is initialized to a copy of _val.
+	**/
+	template<typename T>
+	void stack<T>::push(T _val)
+	{
+		stack[sp++] = _val;
+		sz++;
+	}
+
+	/**
+	* Removes the element on top of the stack, effectively reducing its size by one.
+	**/
+	template<typename T>
+	T stack<T>::pop()
+	{
+		sz--;
+		return *(--sp);
 	}
 
 	/**

@@ -38,6 +38,7 @@ namespace mystruct
 	vector<T>::vector(int _sz = 1)
 	{
 		sz = _sz;
+		cap = 2;
 		arr = new T[sz];
 	}
 

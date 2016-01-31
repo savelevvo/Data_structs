@@ -38,7 +38,7 @@ namespace mystruct
 		T & pop_front();
 		void push_back(T);
 		T & pop_back();
-		void swap(list<T> &);//todo
+		void swap(list<T> &);
 
 		void display()const;
 
@@ -232,7 +232,9 @@ namespace mystruct
 	template<typename T>
 	void list<T>::swap(list<T> &rhs)
 	{
-
+		list<T> tmp(rhs);
+		rhs = *this;
+		*this = tmp;
 	}
 
 	/**
@@ -250,8 +252,6 @@ namespace mystruct
 
 		delete tmp;
 	}
-
-
 
 	template<typename T>
 	bool list<T>::operator== (const list<T> &rhs)const
@@ -287,8 +287,6 @@ namespace mystruct
 	{
 		return !(*this == rhs);
 	}
-
-	
 
 	template<typename T>
 	node<T> *list<T>::create_node(T _val, node<T> *_prev = nullptr, node<T> *_next = nullptr)

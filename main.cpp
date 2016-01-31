@@ -1,15 +1,17 @@
 #include<iostream>
-#include"List.h"
+#include"Stack.h"
 
 using std::cout;
 using std::endl;
+using namespace mystruct;
 
 int main()
 {	
 	//  TODO:
-	//    void List<T>::swap(list<T> &);
-	//  
-	
+	//    
+	stack<int> st(5);
+
+
 	
 	
 	/* List testing */
