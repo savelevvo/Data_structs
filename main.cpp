@@ -1,17 +1,21 @@
 #include<iostream>
-#include"Stack.h"
+#include"Vector.h"
 
 using std::cout;
 using std::endl;
-using namespace mystruct;
+using mystruct::vector;
 
 int main()
 {	
-	//  TODO:
-	//    
-	stack<int> st(5);
+	vector<int> v1;
 
+	cout << "Size: " << v1.size() << endl;
+	cout << "Capacity: " << v1.capacity() << endl;
 
+	size_t vsize = v1.size();
+	for (unsigned i = 0; i < vsize; i++)
+		cout << v1[i] << " ";
+	cout << endl;
 	
 	
 	/* List testing */

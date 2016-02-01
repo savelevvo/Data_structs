@@ -9,7 +9,7 @@ namespace mystruct
 	{
 	public:
 		class out_of_range {};
-		vector(int = 1);
+		vector(size_t = 0);
 		~vector();
 		vector<T> & operator=(const vector<T> &);
 
@@ -20,11 +20,11 @@ namespace mystruct
 		void reserve(size_t);
 
 		T & operator[](unsigned);
-		T & at(int);
+		T & at(unsigned);
 		T & front();
 		T & back();
 
-		void push_back(const T &);
+		void push_back(T);
 		T & pop_back();
 		void swap(vector<T> &);
 
@@ -35,11 +35,11 @@ namespace mystruct
 	};
 
 	template<typename T>
-	vector<T>::vector(int _sz = 1)
+	vector<T>::vector(size_t _sz = 0)
 	{
-		sz = _sz;
-		cap = 2;
-		arr = new T[sz];
+		sz = 0;
+		cap = (_sz == 0) ? _sz + 1 : _sz;
+		arr = new T[cap];
 	}
 
 	template<typename T>
@@ -83,7 +83,7 @@ namespace mystruct
 	* This capacity is not necessarily equal to the vector size. It can be equal or greater, with the extra space allowing to accommodate for growth without the need to reallocate on each insertion.
 	**/
 	template<typename T>
-	inline size_t vector<T>::capacity()const 
+	inline size_t vector<T>::capacity()const
 	{ 
 		return cap; 
 	}
@@ -91,7 +91,7 @@ namespace mystruct
 
 	/**
 	* Returns whether the vector is empty (i.e. whether its size is 0).
-	* This function does not modify the container in any way. 
+	* This function does not modify the container in any way.
 	**/
 	template<typename T>
 	inline bool vector<T>::empty()const
@@ -116,7 +116,7 @@ namespace mystruct
 	template<typename T>
 	T & vector<T>::operator[](unsigned _val)
 	{
-
+		return arr[_val];
 	}
 
 	/**
@@ -125,9 +125,10 @@ namespace mystruct
 	* Throwing an out_of_range exception if it is not.
 	**/
 	template<typename T>
-	T & vector<T>::at(int _val)
+	T & vector<T>::at(unsigned _val)
 	{
-
+		if (_val < 0 || _val > sz - 1) throw out_of_range();
+		return arr[_val];
 	}
 
 	/**
@@ -137,7 +138,7 @@ namespace mystruct
 	template<typename T>
 	T & vector<T>::front()
 	{
-
+		return arr[0];
 	}
 
 	/**
@@ -147,26 +148,38 @@ namespace mystruct
 	template<typename T>
 	T & vector<T>::back()
 	{
-
+		return arr[sz-1];
 	}
 
 	/**
 	* Adds a new element at the end of the vector, after its current last element.
 	**/
 	template<typename T>
-	void vector<T>::push_back(const T &_val)
+	void vector<T>::push_back(T _val)
 	{
-
+		if (sz < cap)
+			arr[sz++] = _val;
+		else
+		{
+			cap *= 2;
+			T *tmp = new T[cap];
+			for (unsigned i = 0; i < sz; i++)
+				tmp[i] = arr[i];
+			delete[] arr;
+			arr = tmp;
+			arr[sz++] = _val;
+		}
 	}
 
 	/**
 	* Removes the last element in the vector, effectively reducing the container size by one.
+	* Calling this function on an empty container causes undefined behavior.
 	* This destroys the removed element.
 	**/
 	template<typename T>
 	T & vector<T>::pop_back()
 	{
-
+		return arr[--sz];
 	}
 
 	/**
