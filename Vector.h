@@ -9,20 +9,20 @@ namespace mystruct
 	{
 	public:
 		class out_of_range {};
-		vector(size_t = 0);
+		vector(size_t = 1);
 		~vector();
 		vector<T> & operator=(const vector<T> &);
 
 		inline size_t size()const;
-		void resize(size_t);
+		void resize(size_t, T = 0);
 		inline size_t capacity()const;
 		inline bool empty()const;
 		void reserve(size_t);
 
-		T & operator[](unsigned);
-		T & at(unsigned);
-		T & front();
-		T & back();
+		T & operator[](unsigned)const;
+		T & at(unsigned)const;
+		T & front()const;
+		T & back()const;
 
 		void push_back(T);
 		T & pop_back();
@@ -35,10 +35,10 @@ namespace mystruct
 	};
 
 	template<typename T>
-	vector<T>::vector(size_t _sz = 0)
+	vector<T>::vector(size_t _cap = 1) 
 	{
 		sz = 0;
-		cap = (_sz == 0) ? _sz + 1 : _sz;
+		cap = _cap;
 		arr = new T[cap];
 	}
 
@@ -54,7 +54,15 @@ namespace mystruct
 	template<typename T>
 	vector<T> & vector<T>::operator=(const vector<T> &rhs)
 	{
+		if (this == &rhs) return *this;
+		sz = 0;
+		cap = rhs.capacity();
+		unsigned rsz = rhs.size();
 
+		for (unsigned i = 0; i < rsz; i++)
+			push_back(rhs[i]);
+
+		return *this;
 	}
 
 	/**
@@ -69,13 +77,19 @@ namespace mystruct
 
 	/**
 	 * Resizes the container so that it contains n elements.
-	 * If _val < sz, the content is reduced to its first n elements, removing those beyond (and destroying them).
-	 * If _val > sz, the content is expanded by inserting at the end as many elements as needed to reach a size of n. 
+	 * If _n < sz, the content is reduced to its first n elements, removing those beyond (and destroying them).
+	 * If _n > sz, the content is expanded by inserting at the end as many elements as needed to reach a size of _n. 
 	**/
 	template<typename T>
-	void vector<T>::resize(size_t _val)
+	void vector<T>::resize(size_t _n, T _val = 0)
 	{
-
+		if (_n < sz)
+			sz = _n;
+		else if (_n > sz)
+			for (unsigned i = sz; i < _n; i++)
+				push_back(_val);
+		else
+			return;
 	}
 
 	/**
@@ -101,20 +115,26 @@ namespace mystruct
 
 	/**
 	 * Requests that the vector capacity be at least enough to contain n elements.
-	 * If _val > cap, the function causes the container to reallocate its storage increasing its capacity to n (or greater).
+	 * If _val > cap, the function causes the container to reallocate its storage increasing its capacity to _val (or greater).
 	 * In all other cases, the function call does not cause a reallocation and the vector capacity is not affected.
 	**/
 	template<typename T>
 	void vector<T>::reserve(size_t _val)
 	{
-
+		if (_val <= cap) return;
+		T *tmp = new T[_val];
+		for (unsigned i = 0; i < sz; i++)
+			tmp[i] = arr[i];
+		delete[] arr;
+		arr = tmp;
+		cap = _val;
 	}
 
 	/**
 	 * Returns a reference to the element at position _val in the vector container.
 	**/
 	template<typename T>
-	T & vector<T>::operator[](unsigned _val)
+	T & vector<T>::operator[](unsigned _val)const
 	{
 		return arr[_val];
 	}
@@ -125,7 +145,7 @@ namespace mystruct
 	* Throwing an out_of_range exception if it is not.
 	**/
 	template<typename T>
-	T & vector<T>::at(unsigned _val)
+	T & vector<T>::at(unsigned _val)const
 	{
 		if (_val < 0 || _val > sz - 1) throw out_of_range();
 		return arr[_val];
@@ -136,7 +156,7 @@ namespace mystruct
 	* Calling this function on an empty container causes undefined behavior.
 	**/
 	template<typename T>
-	T & vector<T>::front()
+	T & vector<T>::front()const
 	{
 		return arr[0];
 	}
@@ -146,7 +166,7 @@ namespace mystruct
 	* Calling this function on an empty container causes undefined behavior.
 	**/
 	template<typename T>
-	T & vector<T>::back()
+	T & vector<T>::back()const
 	{
 		return arr[sz-1];
 	}
@@ -189,7 +209,7 @@ namespace mystruct
 	template<typename T>
 	void vector<T>::swap(vector<T> &rhs)
 	{
-
+		
 	}
 
 }// namespace

@@ -5,18 +5,23 @@ using std::cout;
 using std::endl;
 using mystruct::vector;
 
+void getVectorInfo(const vector<int> &_v)
+{
+	cout << "Size: " << _v.size() << endl;
+	cout << "Capacity: " << _v.capacity() << endl;
+
+	size_t vsize = _v.size();
+	cout << "Vector: ";
+	for (unsigned i = 0; i < vsize; i++)
+		cout << _v[i] << " ";
+	cout << endl << "------------------" << endl;
+}
+
 int main()
 {	
-	vector<int> v1;
+	vector<int> v1, v2;
 
-	cout << "Size: " << v1.size() << endl;
-	cout << "Capacity: " << v1.capacity() << endl;
 
-	size_t vsize = v1.size();
-	for (unsigned i = 0; i < vsize; i++)
-		cout << v1[i] << " ";
-	cout << endl;
-	
 	
 	/* List testing */
 	// 55.56MB(11.35s)
