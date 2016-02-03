@@ -20,7 +20,12 @@ void getVectorInfo(const vector<int> &_v)
 int main()
 {	
 	vector<int> v1, v2;
+	v1.push_back(100);
+	v2.push_back(9999); v2.push_back(8888);
 
+	v1.swap(v2);
+	getVectorInfo(v1);
+	getVectorInfo(v2);
 
 	
 	/* List testing */
