@@ -13,17 +13,20 @@ namespace mystruct
 		~vector();
 		vector<T> & operator=(const vector<T> &);
 
+		/* Capacity */
 		inline size_t size()const;
 		void resize(size_t, T = 0);
 		inline size_t capacity()const;
 		inline bool empty()const;
 		void reserve(size_t);
 
+		/* Element access */
 		T & operator[](unsigned)const;
 		T & at(unsigned)const;
 		T & front()const;
 		T & back()const;
 
+		/* Modifiers */
 		void push_back(T);
 		T & pop_back();
 		void swap(vector<T> &);
@@ -55,9 +58,19 @@ namespace mystruct
 	vector<T> & vector<T>::operator=(const vector<T> &rhs)
 	{
 		if (this == &rhs) return *this;
+		
 		sz = 0;
 		unsigned rsz = rhs.size();
-
+		unsigned rcap = rhs.capacity();
+		
+		if (cap > rcap)
+		{
+			T *tmp = new T[rcap];
+			delete[] arr;
+			arr = tmp;
+			cap = rcap;
+		}
+		
 		for (unsigned i = 0; i < rsz; i++)
 			push_back(rhs[i]);
 
@@ -75,7 +88,7 @@ namespace mystruct
 	}
 
 	/**
-	 * Resizes the container so that it contains n elements.
+	 * Resizes the container so that it contains _n elements.
 	 * If _n < sz, the content is reduced to its first n elements, removing those beyond (and destroying them).
 	 * If _n > sz, the content is expanded by inserting at the end as many elements as needed to reach a size of _n. 
 	**/
