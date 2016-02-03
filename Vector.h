@@ -56,6 +56,7 @@ namespace mystruct
 	{
 		if (this == &rhs) return *this;
 		sz = 0;
+		cap = rhs.capacity();
 		unsigned rsz = rhs.size();
 
 		for (unsigned i = 0; i < rsz; i++)
@@ -100,6 +101,7 @@ namespace mystruct
 	{ 
 		return cap; 
 	}
+
 
 	/**
 	* Returns whether the vector is empty (i.e. whether its size is 0).
@@ -207,11 +209,7 @@ namespace mystruct
 	template<typename T>
 	void vector<T>::swap(vector<T> &rhs)
 	{
-		vector<T> *tmp = new vector<T>;		
-		*tmp = *this;
-		*this = rhs;
-		rhs = *tmp;
-		delete tmp;
+		
 	}
 
 }// namespace
