@@ -19,6 +19,7 @@ namespace mystruct
 	{
 	public:
 		class EmptyList {};
+
 		list();
 		list(T);
 		list(const list<T> &);

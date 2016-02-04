@@ -2,6 +2,8 @@
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
+#include<iostream>
+
 namespace mystruct
 {
 	template<typename T>
@@ -9,6 +11,7 @@ namespace mystruct
 	{
 	public:
 		class out_of_range {};
+
 		vector(size_t = 1);
 		~vector();
 		vector<T> & operator=(const vector<T> &);
@@ -35,10 +38,19 @@ namespace mystruct
 		size_t sz;
 		size_t cap;
 		T *arr;
+
+		std::ostream & operator<< (std::ostream &)const;
+		std::istream & operator>> (std::istream &);
+		bool operator< (const vector<T> &)const;
+		bool operator<=(const vector<T> &)const;
+		bool operator> (const vector<T> &)const;
+		bool operator>=(const vector<T> &)const;
+		bool operator==(const vector<T> &)const;
+		bool operator!=(const vector<T> &)const;
 	};
 
 	template<typename T>
-	vector<T>::vector(size_t _cap = 1) 
+	vector<T>::vector(size_t _cap = 1)
 	{
 		sz = 0;
 		cap = _cap;
@@ -226,7 +238,6 @@ namespace mystruct
 		rhs = *tmp;
 		delete tmp;
 	}
-
 }// namespace
 
 #endif // !_VECTOR_H

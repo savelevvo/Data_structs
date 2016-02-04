@@ -3,93 +3,189 @@
 #define _DQEUE_H
 
 #include<iostream>
+#include"Vector.h"
 
 namespace mystruct
 {
 	template<typename T>
-	class Deque
+	class deque
 	{
 	public:
-		class EmptyDeque {};
-		class InvalidRange {};
+		class Emptydeque {};
+		class out_of_range {};
 
-		Deque(int);
-		Deque(const Deque<T> &);// todo
-		~Deque();
+		deque(int);
+		deque(const deque<T> &);
+		~deque();
+		deque<T> & operator= (const deque<T> &);
 
-		void push(T);
-		T pop();
-		size_t size()const { return sz; }
+		/* Capacity */
+		inline size_t size()const;
+		void resize(size_t, T = 0);
+		inline bool empty()const;
 
-		bool operator==(const Deque<T> &)const; // todo
-		bool operator!=(const Deque<T> &)const; // todo
-		Deque<T> & operator= (const Deque<T> &);// todo
+		/* Element access */
+		T & operator[](unsigned)const;
+		T & at(unsigned)const;
+		T & front()const;
+		T & back()const;
+
+		/* Modifiers */
+		void push_back(T);
+		void push_front(T);
+		T & pop_back();
+		T & pop_front();
 
 	private:
-		int sz;
-		T *arr;
+		size_t sz;
+		vector<T> *arr;
 		int head;
 		int tail;
 		size_t count;
 
 		std::ostream & operator<< (std::ostream &)const;
 		std::istream & operator>> (std::istream &);
-		bool operator< (const Deque<T> &)const;
-		bool operator<=(const Deque<T> &)const;
-		bool operator> (const Deque<T> &)const;
-		bool operator>=(const Deque<T> &)const;
+		bool operator< (const deque<T> &)const;
+		bool operator<=(const deque<T> &)const;
+		bool operator> (const deque<T> &)const;
+		bool operator>=(const deque<T> &)const;
+		bool operator==(const deque<T> &)const;
+		bool operator!=(const deque<T> &)const;
 	};
 
 	template<typename T>
-	Deque<T>::Deque(int size)
+	deque<T>::deque(int size)
 	{
 		tail = head = 0;
 		count = 0;
 		sz = size;
-		arr = new T[sz];
+		//arr = new T[sz];
 	}
 
 	template<typename T>
-	Deque<T>::~Deque()
+	deque<T>::deque(const deque<T> &rhs)
+	{
+
+	}
+
+	template<typename T>
+	deque<T>::~deque()
 	{
 		delete[] arr;
 	}
 
+	
+	/**
+	* Assigns new contents to the container, replacing its current contents, and modifying its size accordingly.
+	**/
 	template<typename T>
-	void Deque<T>::push(T val)
+	deque<T> & deque<T>::operator= (const deque<T> &rhs)
 	{
-		arr[tail] = val;
+
+	}
+
+	/**
+	* Returns the number of elements in the deque container.
+	**/
+	template<typename T>
+	inline size_t deque<T>::size()const
+	{
+
+	}
+
+	/**
+	* Resizes the container so that it contains _n elements.
+	**/
+	template<typename T>
+	void deque<T>::resize(size_t _n, T _val = 0)
+	{
+
+	}
+
+	/**
+	*
+	**/
+	template<typename T>
+	inline bool deque<T>::empty()const
+	{
+
+	}
+
+	/**
+	*
+	**/
+	template<typename T>
+	T & deque<T>::operator[](unsigned _val)const
+	{
+		
+	}
+
+	/**
+	*
+	**/
+	template<typename T>
+	T & deque<T>::at(unsigned _val)const
+	{
+	
+	}
+
+	/**
+	*
+	**/
+	template<typename T>
+	T & deque<T>::front()const
+	{
+	
+	}
+
+	/**
+	*
+	**/
+	template<typename T>
+	T & deque<T>::back()const
+	{
+
+	}
+
+	/**
+	*
+	**/
+	template<typename T>
+	void deque<T>::push_back(T _val)
+	{
+		arr[tail] = _val;
 		tail < sz - 1 ? tail++ : head = tail = 0;
 		count++;
 	}
 
+	/**
+	*
+	**/
 	template<typename T>
-	T Deque<T>::pop()
+	void deque<T>::push_front(T _val)
+	{
+	
+	}
+
+	/**
+	*
+	**/
+	template<typename T>
+	T & deque<T>::pop_back()
 	{
 		if (head >= sz) throw InvalidRange();
-		if (0 == count) throw EmptyDeque();
+		if (0 == count) throw Emptydeque();
 		count--;
 		return arr[head++];
 	}
 
+	/**
+	*
+	**/
 	template<typename T>
-	bool Deque<T>::operator==(const Deque<T> &rhs)const
+	T & deque<T>::pop_front()
 	{
-		if (this == &rhs) return true;
-		if (size() != rhs.size()) return false;
-
-		bool eq = true;
-
-		for (size_t i = 0; i < count; i++)
-			if (arr[i] != rhs.arr[i]) { eq = false; break; }
-
-		return eq;
-	}
-
-	template<typename T>
-	bool Deque<T>::operator!=(const Deque<T> &rhs)const
-	{
-		return !(*this == rhs);
+	
 	}
 }// namespace
 

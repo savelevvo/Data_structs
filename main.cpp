@@ -1,29 +1,16 @@
 #include<iostream>
-#include"Vector.h"
+#include"List.h"
 
 using std::cout;
 using std::endl;
-using mystruct::vector;
-
-void getVectorInfo(const vector<int> &_v, bool display = true)
-{
-	cout << "Size: " << _v.size() << endl;
-	cout << "Capacity: " << _v.capacity() << endl;
-	if (display)
-	{
-		size_t vsize = _v.size();
-		cout << "Vector: ";
-		for (unsigned i = 0; i < vsize; i++)
-			cout << _v[i] << " ";
-		cout << endl;
-	}
-	cout << "------------------" << endl;
-}
+using mystruct::list;
 
 int main()
 {	
-	vector<int> v1;
+	list<int> l;
 
+	
+	
 	
 	/* List testing */
 	// 55.56MB(11.35s)

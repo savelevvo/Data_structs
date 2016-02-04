@@ -3,6 +3,7 @@
 #define _STACK_H
 
 #include<iostream>
+#include "Vector.h"
 
 namespace mystruct
 {
@@ -11,21 +12,20 @@ namespace mystruct
 	{
 	public:
 		class EmptyStack {};
-		class FullStack{};
-		stack(size_t);
-		stack(const stack<T> &);
+
+		stack();
 		~stack();
 
+		/* Capacity */
 		inline bool empty()const;
 		inline size_t size()const;
 
+		/* Modifiers */
 		void push(T);
 		T pop();
-		void swap(stack<T> &);
 
 	private:
-		T *sp;// stack pointer
-		T *stack;
+		vector<T> *st;
 		size_t sz;
 
 		std::ostream & operator<< (std::ostream &)const;
@@ -40,23 +40,16 @@ namespace mystruct
 	};
 
 	template<typename T>
-	stack<T>::stack(size_t _sz)
+	stack<T>::stack()
 	{
-		sz = _sz;
-		stack = new T[_sz];
-		sp = stack;
-	}
-
-	template<typename T>
-	stack<T>::stack(const stack<T> &_val)
-	{
-
+		sz = 0;
+		st = new vector<T>;
 	}
 
 	template<typename T>
 	stack<T>::~stack()
 	{
-		delete[] stack;
+		st->~vector();
 	}
 
 	/**
@@ -83,7 +76,7 @@ namespace mystruct
 	template<typename T>
 	void stack<T>::push(T _val)
 	{
-		stack[sp++] = _val;
+		st->push_back(_val);
 		sz++;
 	}
 
@@ -93,17 +86,9 @@ namespace mystruct
 	template<typename T>
 	T stack<T>::pop()
 	{
+		if (sz == 0) throw EmptyStack();
 		sz--;
-		return *(--sp);
-	}
-
-	/**
-	* Exchanges the contents of the container by those of rhs.
-	**/
-	template<typename T>
-	void stack<T>::swap(stack<T> &rhs)
-	{
-
+		return st->pop_back();
 	}
 }// namespace
 
