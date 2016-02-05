@@ -4,6 +4,7 @@
 
 #include<iostream>
 #include"Vector.h"
+using mystruct::vector;
 
 namespace mystruct
 {
@@ -11,10 +12,10 @@ namespace mystruct
 	class deque
 	{
 	public:
-		class Emptydeque {};
+		class empty_deque {};
 		class out_of_range {};
 
-		deque(int);
+		deque();
 		deque(const deque<T> &);
 		~deque();
 		deque<T> & operator= (const deque<T> &);
@@ -38,10 +39,10 @@ namespace mystruct
 
 	private:
 		size_t sz;
-		vector<T> *arr;
-		int head;
-		int tail;
 		size_t count;
+		unsigned head;
+		unsigned tail;
+		vector<T> *arr;
 
 		std::ostream & operator<< (std::ostream &)const;
 		std::istream & operator>> (std::istream &);
@@ -54,12 +55,12 @@ namespace mystruct
 	};
 
 	template<typename T>
-	deque<T>::deque(int size)
+	deque<T>::deque()
 	{
 		tail = head = 0;
 		count = 0;
-		sz = size;
-		//arr = new T[sz];
+		arr = new vector<T>;
+		sz = 0;
 	}
 
 	template<typename T>
@@ -71,7 +72,7 @@ namespace mystruct
 	template<typename T>
 	deque<T>::~deque()
 	{
-		delete[] arr;
+		arr->~vector();
 	}
 
 	
@@ -90,7 +91,7 @@ namespace mystruct
 	template<typename T>
 	inline size_t deque<T>::size()const
 	{
-
+		return sz;
 	}
 
 	/**
@@ -103,30 +104,36 @@ namespace mystruct
 	}
 
 	/**
-	*
+	* Returns whether the deque container is empty (i.e. whether its size is 0).
+	* This function does not modify the container in any way.
 	**/
 	template<typename T>
 	inline bool deque<T>::empty()const
 	{
-
+		return sz == 0;
 	}
 
 	/**
-	*
+	* Returns a reference to the element at position n in the deque container.
+	* A similar member function, deque::at, has the same behavior as this operator function, except that deque::at is bound-checked and signals if the requested position is out of range by throwing an out_of_range exception.
 	**/
 	template<typename T>
 	T & deque<T>::operator[](unsigned _val)const
 	{
-		
+		return arr[_val];
 	}
 
 	/**
-	*
+	* Returns a reference to the element at position n in the deque container object.
+	* The function automatically checks whether _val is within the bounds of valid elements in the container, throwing an out_of_range exception if it is not (i.e., if n is greater or equal than its size). This is in contrast with member operator[], that does not check against bounds.
+	* Returns a reference to the element at position _val in the deque container object.
+
 	**/
 	template<typename T>
 	T & deque<T>::at(unsigned _val)const
 	{
-	
+		if (_val < 0 || _val > sz - 1) throw out_of_range();
+		return arr[_val];
 	}
 
 	/**
@@ -135,7 +142,7 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::front()const
 	{
-	
+		return arr[0];
 	}
 
 	/**
@@ -144,7 +151,7 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::back()const
 	{
-
+		return arr[sz - 1];
 	}
 
 	/**
@@ -153,9 +160,8 @@ namespace mystruct
 	template<typename T>
 	void deque<T>::push_back(T _val)
 	{
-		arr[tail] = _val;
-		tail < sz - 1 ? tail++ : head = tail = 0;
-		count++;
+		arr->push_back(_val);
+		sz++;
 	}
 
 	/**
@@ -173,10 +179,8 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::pop_back()
 	{
-		if (head >= sz) throw InvalidRange();
-		if (0 == count) throw Emptydeque();
-		count--;
-		return arr[head++];
+		sz--;
+		return arr->pop_back();
 	}
 
 	/**
