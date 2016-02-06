@@ -7,19 +7,7 @@ using mystruct::deque;
 
 int main()
 {	
-	deque<int> fd;
-
-	fd.push_back(9);
-	fd.push_back(11);
-	fd.push_back(21);
-	fd.push_back(23);
-	
-	cout << "pop_front(): " << fd.pop_front() << endl;
-
-	cout << "Size: " << fd.size() << endl;
-	for (unsigned i = 0; i < fd.size(); i++)
-		cout << fd[i] << " ";
-	cout << endl;
+	deque<int> fd, fd2;
 	
 	
 	/* List testing */

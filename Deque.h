@@ -36,10 +36,11 @@ namespace mystruct
 		void push_front(T);
 		T & pop_back();
 		T & pop_front();
+		void swap(deque<T> &);
+		inline void clear();
 
 	private:
-		size_t sz;
-		vector<T> *arr;
+		vector<T> *deq;
 
 		std::ostream & operator<< (std::ostream &)const;
 		std::istream & operator>> (std::istream &);
@@ -54,22 +55,23 @@ namespace mystruct
 	template<typename T>
 	deque<T>::deque()
 	{
-		arr = new vector<T>;
-		sz = 0;
+		deq = new vector<T>;
 	}
 
 	template<typename T>
 	deque<T>::deque(const deque<T> &rhs)
 	{
-
+		deq = new vector<T>;
+		size_t rsz = rhs.size();
+		for (unsigned i = 0; i < rsz; i++)
+			push_back(rhs[i]);
 	}
 
 	template<typename T>
 	deque<T>::~deque()
 	{
-		arr->~vector();
+		deq->~vector();
 	}
-
 	
 	/**
 	* Assigns new contents to the container, replacing its current contents, and modifying its size accordingly.
@@ -77,7 +79,14 @@ namespace mystruct
 	template<typename T>
 	deque<T> & deque<T>::operator= (const deque<T> &rhs)
 	{
+		if (this == &rhs) return *this;
+		
+		deq->clear();
+		unsigned rsz = rhs.size();
+		for (unsigned i = 0; i < rsz; i++)
+			push_back(rhs[i]);
 
+		return *this;
 	}
 
 	/**
@@ -86,7 +95,7 @@ namespace mystruct
 	template<typename T>
 	inline size_t deque<T>::size()const
 	{
-		return sz;
+		return deq->size();
 	}
 
 	/**
@@ -95,7 +104,7 @@ namespace mystruct
 	template<typename T>
 	void deque<T>::resize(size_t _n, T _val = 0)
 	{
-
+		deq->resize(_n, _val);
 	}
 
 	/**
@@ -105,7 +114,7 @@ namespace mystruct
 	template<typename T>
 	inline bool deque<T>::empty()const
 	{
-		return sz == 0;
+		return deq->empty();
 	}
 
 	/**
@@ -115,7 +124,7 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::operator[](unsigned _val)const
 	{
-		return (*arr)[_val];
+		return (*deq)[_val];
 	}
 
 	/**
@@ -127,8 +136,8 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::at(unsigned _val)const
 	{
-		if (_val < 0 || _val > sz - 1) throw out_of_range();
-		return (*arr)[_val];
+		if ( _val < 0 || _val > (deq->size() - 1) ) throw out_of_range();
+		return (*deq)[_val];
 	}
 
 	/**
@@ -138,7 +147,7 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::front()const
 	{
-		return (*arr)[0];
+		return (*deq)[0];
 	}
 
 	/**
@@ -148,7 +157,7 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::back()const
 	{
-		return (*arr)[sz - 1];
+		return (*deq)[deq->size() - 1];
 	}
 
 	/**
@@ -158,8 +167,7 @@ namespace mystruct
 	template<typename T>
 	void deque<T>::push_back(T _val)
 	{
-		arr->push_back(_val);
-		sz++;
+		deq->push_back(_val);
 	}
 
 	/**
@@ -169,13 +177,13 @@ namespace mystruct
 	template<typename T>
 	void deque<T>::push_front(T _val)
 	{
+		size_t sz = deq->size();
 		vector<T> *tmp = new vector<T>(sz + 1);
 		tmp->push_back(_val);
 		for (unsigned i = 0; i < sz; i++)
-			tmp->push_back((*arr)[i]);
-		arr->~vector();
-		arr = tmp;
-		sz++;
+			tmp->push_back((*deq)[i]);
+		deq->~vector();
+		deq = tmp;
 	}
 
 	/**
@@ -185,8 +193,8 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::pop_back()
 	{
-		sz--;
-		return arr->pop_back();
+		if (deq->empty()) throw empty_deque();
+		return deq->pop_back();
 	}
 
 	/**
@@ -196,14 +204,38 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::pop_front()
 	{
-		T backup = (*arr)[0];
+		if (deq->empty()) throw empty_deque();
+		T backup = (*deq)[0];
+		size_t sz = deq->size();
 		vector<T> *tmp = new vector<T>(sz - 1);
 		for (unsigned i = 1; i < sz; i++)
-			tmp->push_back((*arr)[i]);
-		arr->~vector();
-		arr = tmp;
-		sz--;
+			tmp->push_back((*deq)[i]);
+		deq->~vector();
+		deq = tmp;
 		return backup;
+	}
+
+	/**
+	* Exchanges the content of the container by the content of x, which is another deque object containing elements of the same type.
+	* Sizes may differ.
+	**/
+	template<typename T>
+	void deque<T>::swap(deque<T> &rhs)
+	{
+		deque<T> *tmp = new deque<T>;
+		*tmp = *this;
+		*this = rhs;
+		rhs = *tmp;
+		delete tmp;
+	}
+
+	/**
+	* Removes all elements from the deque (which are destroyed), leaving the container with a size of 0.
+	**/
+	template<typename T>
+	inline void deque<T>::clear()
+	{
+		deq->clear();
 	}
 }// namespace
 

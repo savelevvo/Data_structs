@@ -33,11 +33,12 @@ namespace mystruct
 		void push_back(T);
 		T & pop_back();
 		void swap(vector<T> &);
-
+		inline void clear();
+		
 	private:
+		T *arr;
 		size_t sz;
 		size_t cap;
-		T *arr;
 
 		std::ostream & operator<< (std::ostream &)const;
 		std::istream & operator>> (std::istream &);
@@ -47,6 +48,7 @@ namespace mystruct
 		bool operator>=(const vector<T> &)const;
 		bool operator==(const vector<T> &)const;
 		bool operator!=(const vector<T> &)const;
+
 	};
 
 	template<typename T>
@@ -237,6 +239,15 @@ namespace mystruct
 		*this = rhs;
 		rhs = *tmp;
 		delete tmp;
+	}
+
+	/**
+	* Removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
+	**/
+	template<typename T>
+	inline void vector<T>::clear()
+	{
+		sz = 0;
 	}
 }// namespace
 

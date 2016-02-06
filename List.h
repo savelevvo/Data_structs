@@ -18,7 +18,7 @@ namespace mystruct
 	class list
 	{
 	public:
-		class EmptyList {};
+		class empty_list {};
 
 		list();
 		list(T);
@@ -50,6 +50,7 @@ namespace mystruct
 		node<T> *first;
 		node<T> *last;
 		size_t sz;
+
 		node<T> *create_node(T, node<T> * = nullptr, node<T> * = nullptr);
 		void copy(const list<T> &);
 
@@ -168,7 +169,7 @@ namespace mystruct
 	template<typename T>
 	T & list<T>::pop_front()
 	{
-		if (empty()) throw EmptyList();
+		if (empty()) throw empty_list();
 		sz--;
 		node<T> *tmp = new node<T>(*first);
 
@@ -208,7 +209,7 @@ namespace mystruct
 	template<typename T>
 	T & list<T>::pop_back()
 	{
-		if (empty()) throw EmptyList();
+		if (empty()) throw empty_list();
 		sz--;
 		node<T> *tmp = new node<T>(*last);
 

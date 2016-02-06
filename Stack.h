@@ -12,7 +12,7 @@ namespace mystruct
 	class stack
 	{
 	public:
-		class EmptyStack {};
+		class empty_stack {};
 
 		stack();
 		~stack();
@@ -87,7 +87,7 @@ namespace mystruct
 	template<typename T>
 	T stack<T>::pop()
 	{
-		if (sz == 0) throw EmptyStack();
+		if (sz == 0) throw empty_stack();
 		sz--;
 		return st->pop_back();
 	}
