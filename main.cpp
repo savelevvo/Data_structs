@@ -1,13 +1,12 @@
 #include<iostream>
-#include"Deque.h"
+#include"Vector.h"
 
 using std::cout;
 using std::endl;
-using mystruct::deque;
 
 int main()
 {	
-	deque<int> fd, fd2;
+	mystruct::vector<int> fd, fd2;
 	
 	
 	/* List testing */

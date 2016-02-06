@@ -2,14 +2,13 @@
 #ifndef _STACK_H
 #define _STACK_H
 
-#include<iostream>
-#include "Vector.h"
+#include"Vector.h"
 using mystruct::vector;
 
 namespace mystruct
 {
 	template<typename T>
-	class stack
+	class stack : private noiocmp
 	{
 	public:
 		class empty_stack {};
@@ -29,15 +28,6 @@ namespace mystruct
 		vector<T> *st;
 		size_t sz;
 
-		std::ostream & operator<< (std::ostream &)const;
-		std::istream & operator>> (std::istream &);
-		stack<T> & operator= (const stack<T> &);
-		bool operator==(const stack<T> &)const;
-		bool operator!=(const stack<T> &)const;
-		bool operator< (const stack<T> &)const;
-		bool operator<=(const stack<T> &)const;
-		bool operator> (const stack<T> &)const;
-		bool operator>=(const stack<T> &)const;
 	};
 
 	template<typename T>

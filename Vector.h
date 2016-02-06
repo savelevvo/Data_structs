@@ -2,12 +2,12 @@
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
-#include<iostream>
+#include"Noiocmp.h"
 
 namespace mystruct
 {
 	template<typename T>
-	class vector
+	class vector : private noiocmp
 	{
 	public:
 		class out_of_range {};
@@ -39,15 +39,6 @@ namespace mystruct
 		T *arr;
 		size_t sz;
 		size_t cap;
-
-		std::ostream & operator<< (std::ostream &)const;
-		std::istream & operator>> (std::istream &);
-		bool operator< (const vector<T> &)const;
-		bool operator<=(const vector<T> &)const;
-		bool operator> (const vector<T> &)const;
-		bool operator>=(const vector<T> &)const;
-		bool operator==(const vector<T> &)const;
-		bool operator!=(const vector<T> &)const;
 
 	};
 

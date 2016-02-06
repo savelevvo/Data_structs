@@ -2,12 +2,12 @@
 #ifndef _LIST_H
 #define _LIST_H
 
-#include<iostream>
+#include"Noiocmp.h"
 
 namespace mystruct
 {
 	template<typename T>
-	struct node
+	struct node : private noiocmp
 	{
 		T value;
 		node<T> *prev;
@@ -43,9 +43,6 @@ namespace mystruct
 
 		void display()const;
 
-		bool operator==(const list<T> &)const;
-		bool operator!=(const list<T> &)const;
-
 	private:
 		node<T> *first;
 		node<T> *last;
@@ -54,12 +51,6 @@ namespace mystruct
 		node<T> *create_node(T, node<T> * = nullptr, node<T> * = nullptr);
 		void copy(const list<T> &);
 
-		std::ostream & operator<< (std::ostream &)const;
-		std::istream & operator>> (std::istream &);
-		bool operator< (const list<T> &)const;
-		bool operator<=(const list<T> &)const;
-		bool operator> (const list<T> &)const;
-		bool operator>=(const list<T> &)const;
 	};
 
 	template<typename T>
@@ -253,41 +244,6 @@ namespace mystruct
 		std::cout << std::endl;
 
 		delete tmp;
-	}
-
-	template<typename T>
-	bool list<T>::operator== (const list<T> &rhs)const
-	{
-		if (this == &rhs) return true;
-
-		node<T> *ltmp = first;
-		node<T> *rtmp = rhs.first;
-
-		bool eq = true;
-
-		while (ltmp != nullptr)
-		{
-			if (ltmp->value == rtmp->value)
-			{
-				if (ltmp->next == nullptr && rtmp->next != nullptr) { eq = false; break; }
-				if (rtmp->next == nullptr && ltmp->next != nullptr) { eq = false; break; }
-				ltmp = ltmp->next;
-				rtmp = rtmp->next;
-			}
-			else
-			{
-				eq = false;
-				break;
-			}
-		}
-
-		return eq;
-	}
-
-	template<typename T>
-	bool list<T>::operator!= (const list<T> &rhs)const
-	{
-		return !(*this == rhs);
 	}
 
 	template<typename T>

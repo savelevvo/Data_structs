@@ -2,14 +2,13 @@
 #ifndef _DEQUE_H
 #define _DQEUE_H
 
-#include<iostream>
 #include"Vector.h"
 using mystruct::vector;
 
 namespace mystruct
 {
 	template<typename T>
-	class deque
+	class deque : private noiocmp
 	{
 	public:
 		class empty_deque {};
@@ -42,14 +41,6 @@ namespace mystruct
 	private:
 		vector<T> *deq;
 
-		std::ostream & operator<< (std::ostream &)const;
-		std::istream & operator>> (std::istream &);
-		bool operator< (const deque<T> &)const;
-		bool operator<=(const deque<T> &)const;
-		bool operator> (const deque<T> &)const;
-		bool operator>=(const deque<T> &)const;
-		bool operator==(const deque<T> &)const;
-		bool operator!=(const deque<T> &)const;
 	};
 
 	template<typename T>
