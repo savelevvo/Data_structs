@@ -1,21 +1,26 @@
 #include<iostream>
-#include"Vector.h"
+#include"Deque.h"
 
 using std::cout;
 using std::endl;
-using mystruct::vector;
+using mystruct::deque;
 
 int main()
 {	
-	vector<float> fv;
-	fv.push_back(9.9F); fv.push_back(11.3F); fv.push_back(21.2F);
+	deque<int> fd;
+
+	fd.push_back(9);
+	fd.push_back(11);
+	fd.push_back(21);
+	fd.push_back(23);
 	
-	try {
-		cout << fv.at(-11) << endl;
-	}
-	catch (vector<float>::out_of_range){
-		cout << "Out Of Range Exception" << endl;
-	}
+	cout << "pop_front(): " << fd.pop_front() << endl;
+
+	cout << "Size: " << fd.size() << endl;
+	for (unsigned i = 0; i < fd.size(); i++)
+		cout << fd[i] << " ";
+	cout << endl;
+	
 	
 	/* List testing */
 	// 55.56MB(11.35s)

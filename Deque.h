@@ -39,9 +39,6 @@ namespace mystruct
 
 	private:
 		size_t sz;
-		size_t count;
-		unsigned head;
-		unsigned tail;
 		vector<T> *arr;
 
 		std::ostream & operator<< (std::ostream &)const;
@@ -57,8 +54,6 @@ namespace mystruct
 	template<typename T>
 	deque<T>::deque()
 	{
-		tail = head = 0;
-		count = 0;
 		arr = new vector<T>;
 		sz = 0;
 	}
@@ -120,7 +115,7 @@ namespace mystruct
 	template<typename T>
 	T & deque<T>::operator[](unsigned _val)const
 	{
-		return arr[_val];
+		return (*arr)[_val];
 	}
 
 	/**
@@ -133,29 +128,32 @@ namespace mystruct
 	T & deque<T>::at(unsigned _val)const
 	{
 		if (_val < 0 || _val > sz - 1) throw out_of_range();
-		return arr[_val];
+		return (*arr)[_val];
 	}
 
 	/**
-	*
+	* Returns a reference to the first element in the deque container.
+	* Calling this function on an empty container causes undefined behavior.
 	**/
 	template<typename T>
 	T & deque<T>::front()const
 	{
-		return arr[0];
+		return (*arr)[0];
 	}
 
 	/**
-	*
+	* Returns a reference to the last element in the container.
+	* Calling this function on an empty container causes undefined behavior.
 	**/
 	template<typename T>
 	T & deque<T>::back()const
 	{
-		return arr[sz - 1];
+		return (*arr)[sz - 1];
 	}
 
 	/**
-	*
+	* Adds a new element at the end of the deque container, after its current last element. The content of _val is copied (or moved) to the new element.
+	* This effectively increases the container size by one.
 	**/
 	template<typename T>
 	void deque<T>::push_back(T _val)
@@ -165,16 +163,24 @@ namespace mystruct
 	}
 
 	/**
-	*
+	* Inserts a new element at the beginning of the deque container, right before its current first element. The content of _val is copied (or moved) to the inserted element.
+	* This effectively increases the container size by one.
 	**/
 	template<typename T>
 	void deque<T>::push_front(T _val)
 	{
-	
+		vector<T> *tmp = new vector<T>(sz + 1);
+		tmp->push_back(_val);
+		for (unsigned i = 0; i < sz; i++)
+			tmp->push_back((*arr)[i]);
+		arr->~vector();
+		arr = tmp;
+		sz++;
 	}
 
 	/**
-	*
+	* Removes the last element in the deque container, effectively reducing the container size by one.
+	* This destroys the removed element.
 	**/
 	template<typename T>
 	T & deque<T>::pop_back()
@@ -184,12 +190,20 @@ namespace mystruct
 	}
 
 	/**
-	*
+	* Removes the first element in the deque container, effectively reducing its size by one.
+	* This destroys the removed element.
 	**/
 	template<typename T>
 	T & deque<T>::pop_front()
 	{
-	
+		T backup = (*arr)[0];
+		vector<T> *tmp = new vector<T>(sz - 1);
+		for (unsigned i = 1; i < sz; i++)
+			tmp->push_back((*arr)[i]);
+		arr->~vector();
+		arr = tmp;
+		sz--;
+		return backup;
 	}
 }// namespace
 
