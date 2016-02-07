@@ -1,12 +1,15 @@
 #include<iostream>
+#include<string>
 #include"Vector.h"
 
 using std::cout;
 using std::endl;
 
+
 int main()
 {	
-	mystruct::vector<int> fd, fd2;
+
+
 	
 	
 	/* List testing */
