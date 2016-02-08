@@ -7,7 +7,7 @@
 namespace mystruct
 {
 	template<typename T>
-	struct node : private noiocmp
+	struct node
 	{
 		T value;
 		node<T> *prev;
@@ -15,7 +15,7 @@ namespace mystruct
 	};
 
 	template<typename T>
-	class list
+	class list : private noiocmp
 	{
 	public:
 		class empty_list {};
