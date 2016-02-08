@@ -1,16 +1,13 @@
 #include<iostream>
-#include<string>
-#include"Vector.h"
 
 using std::cout;
 using std::endl;
 
 
 int main()
-{	
-
-
+{
 	
+
 	
 	/* List testing */
 	// 55.56MB(11.35s)

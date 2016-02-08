@@ -3,7 +3,6 @@
 #define _DQEUE_H
 
 #include"Vector.h"
-using mystruct::vector;
 
 namespace mystruct
 {

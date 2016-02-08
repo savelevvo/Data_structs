@@ -2,12 +2,11 @@
 #ifndef _STACK_H
 #define _STACK_H
 
-#include"Vector.h"
-using mystruct::vector;
+#include"Deque.h"
 
 namespace mystruct
 {
-	template<typename T>
+	template< typename T, typename C = deque<T> >
 	class stack : private noiocmp
 	{
 	public:
@@ -25,60 +24,56 @@ namespace mystruct
 		T pop();
 
 	private:
-		vector<T> *st;
-		size_t sz;
+		C *st;
 
 	};
 
-	template<typename T>
-	stack<T>::stack()
+	template< typename T, typename C = vector<T> >
+	stack< T, C >::stack()
 	{
-		sz = 0;
-		st = new vector<T>;
+		st = new C;
 	}
 
-	template<typename T>
-	stack<T>::~stack()
+	template< typename T, typename C = vector<T> >
+	stack< T, C >::~stack()
 	{
-		st->~vector();
+		st->~C();
 	}
 
 	/**
 	* Returns whether the stack is empty: i.e. whether its size is zero.
 	**/
-	template<typename T>
-	inline bool stack<T>::empty()const
+	template< typename T, typename C = vector<T> >
+	inline bool stack< T, C >::empty()const
 	{
-		return sz == 0;
+		return st->size() == 0;
 	}
 
 	/**
 	* Returns the number of elements in the stack.
 	**/
-	template<typename T>
-	inline size_t stack<T>::size()const
+	template< typename T, typename C = vector<T> >
+	inline size_t stack< T, C >::size()const
 	{
-		return sz;
+		return st->size();
 	}
 
 	/**
 	* Inserts a new element at the top of the stack. The content of this new element is initialized to a copy of _val.
 	**/
-	template<typename T>
-	void stack<T>::push(T _val)
+	template< typename T, typename C = vector<T> >
+	void stack< T, C >::push(T _val)
 	{
 		st->push_back(_val);
-		sz++;
 	}
 
 	/**
 	* Removes the element on top of the stack, effectively reducing its size by one.
 	**/
-	template<typename T>
-	T stack<T>::pop()
+	template< typename T, typename C = vector<T> >
+	T stack< T, C >::pop()
 	{
-		if (sz == 0) throw empty_stack();
-		sz--;
+		if (st->size() == 0) throw empty_stack();
 		return st->pop_back();
 	}
 }// namespace
