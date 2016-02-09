@@ -45,9 +45,9 @@ namespace mystruct
 	template<typename T>
 	vector<T>::vector(size_t _cap = 1)
 	{
+		arr = new T[_cap];
 		sz = 0;
 		cap = _cap;
-		arr = new T[cap];
 	}
 
 	template<typename T>
