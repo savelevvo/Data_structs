@@ -1,16 +1,16 @@
 #include<iostream>
-#include"Deque.h"
-#include<cstring>
+#include"String.h"
+
 using std::cout;
+using std::cin;
 using std::endl;
 
 
 int main()
 {
-	mystruct::deque<int> dd;
+	mystruct::string s1;
 
-	char *r = "hello";
-	cout << r[1] << endl;
+
 
 	
 	/* List testing */

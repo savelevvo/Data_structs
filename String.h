@@ -39,8 +39,7 @@ namespace mystruct
 		string & operator+=(const string &);
 		string & operator+=(const char*);
 		string & operator+=(char);
-		string & append(const string &);
-		string & append(const char*);
+		void push_back(const char*);
 		void push_back(char);
 		void pop_back();
 		void swap(string &);
@@ -52,14 +51,11 @@ namespace mystruct
 
 	string operator+(const string &, const string &);
 	bool operator== (const string &, const string &);
+	bool operator== (const char* lhs, const string& rhs);
+	bool operator== (const string& lhs, const char* rhs);
 	bool operator!= (const string &, const string &);
-	bool operator<  (const string &, const string &);
-	bool operator<= (const string &, const string &);
-	bool operator>  (const string &, const string &);
-	bool operator>= (const string &, const string &);
 	std::istream & operator>>(std::istream &, string &);
 	std::ostream & operator<<(std::ostream &, const string &);
-
 
 	string::string()
 	{
@@ -172,27 +168,31 @@ namespace mystruct
 
 	string & string::operator+=(const string &rhs)
 	{
-
+		size_t rlen = rhs.size();
+		reserve(s->size() + rlen);
+		for (size_t i = 0; i < rlen; i++)
+			push_back(rhs[i]);
+		return *this;
 	}
 
 	string & string::operator+=(const char* rhs)
 	{
-
+		size_t rlen = strlen(rhs);
+		reserve(s->size() + rlen);
+		for (size_t i = 0; i < rlen; i++)
+			push_back(rhs[i]);
+		return *this;
 	}
 
 	string & string::operator+=(char rhs)
 	{
-
+		push_back(rhs);
+		return *this;
 	}
 
-	string & string::append(const string &_val)
+	void string::push_back(const char* _val)
 	{
-
-	}
-
-	string & string::append(const char* _val)
-	{
-
+		s->push_back(*_val);
 	}
 
 	void string::push_back(char _val)
@@ -207,19 +207,71 @@ namespace mystruct
 
 	void string::swap(string &rhs)
 	{
-		
+		string *tmp = new string;
+		*tmp = *this;
+		*this = rhs;
+		rhs = *tmp;
+		delete tmp;
+	}
+	
+	string operator+(const string &lhs, const string &rhs)
+	{
+		string tmp;
+		tmp.reserve(lhs.size() + rhs.size());
+
+		tmp = lhs;
+		tmp += rhs;
+
+		return tmp;
+	}
+	
+	bool operator== (const string &lhs, const string &rhs)
+	{
+		if (lhs.size() != rhs.size()) return false;
+		size_t len = lhs.size();
+		for (size_t i = 0; i < len; i++)
+			if (lhs[i] != rhs[i]) return false;
+		return true;
 	}
 
-	string operator+(const string &lhs, const string &rhs){}
-	bool operator== (const string &lhs, const string &rhs){}
-	bool operator!= (const string &lhs, const string &rhs){}
-	bool operator<  (const string &lhs, const string &rhs){}
-	bool operator<= (const string &lhs, const string &rhs){}
-	bool operator>  (const string &lhs, const string &rhs){}
-	bool operator>= (const string &lhs, const string &rhs){}
-	std::istream & operator>>(std::istream &lhs, string &rhs){}
-	std::ostream & operator<<(std::ostream &lhs, const string &rhs){}
+	bool operator== (const char* lhs, const string& rhs)
+	{
+		if (strlen(lhs) != rhs.size()) return false;
+		size_t len = rhs.size();
+		for (size_t i = 0; i < len; i++)
+			if (lhs[i] != rhs[i]) return false;
+		return true;
+	}
 
+	bool operator== (const string& lhs, const char* rhs)
+	{
+		if (lhs.size() != strlen(rhs)) return false;
+		size_t len = lhs.size();
+		for (size_t i = 0; i < len; i++)
+			if (lhs[i] != rhs[i]) return false;
+		return true;
+	}
+	
+	bool operator!= (const string &lhs, const string &rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	std::istream & operator>>(std::istream &is, string &str)
+	{
+		char buf[2048];
+		is.getline(buf, sizeof buf);
+		str = buf;
+		return is;
+	}
+	
+	std::ostream & operator<<(std::ostream &os, const string &str)
+	{
+		for (size_t i = 0; i < str.size(); i++)
+			os << str[i];
+
+		return os;
+	}
 }// namespace
 
 #endif // !_STRING_H
