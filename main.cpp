@@ -1,5 +1,5 @@
 #include<iostream>
-#include"String.h"
+#include"include\String.h"
 
 using std::cout;
 using std::cin;
@@ -8,9 +8,7 @@ using std::endl;
 
 int main()
 {
-	mystruct::string s1;
-
-
+	
 
 	
 	/* List testing */
