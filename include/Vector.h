@@ -43,7 +43,7 @@ namespace mystruct
 	};
 
 	template<typename T>
-	vector<T>::vector(size_t _cap = 1)
+	vector<T>::vector(size_t _cap)
 	{
 		arr = new T[_cap];
 		sz = 0;
@@ -98,7 +98,7 @@ namespace mystruct
 	 * If _n > sz, the content is expanded by inserting at the end as many elements as needed to reach a size of _n. 
 	**/
 	template<typename T>
-	void vector<T>::resize(size_t _n, T _val = 0)
+	void vector<T>::resize(size_t _n, T _val)
 	{
 		if (_n < sz)
 			sz = _n;
